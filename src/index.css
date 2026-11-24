@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --primary-navy: #14213D;
+    --dark-navy: #0D1930;
+    --secondary-navy: #1F3558;
+    --accent-orange: #F4A62A;
+    --accent-orange-hover: #E0941F;
+    --light-bg: #F7F8FA;
+    --white: #FFFFFF;
+    --primary-text: #202B3C;
+    --secondary-text: #788397;
+    --border-color: #E7EAF0;
+    --success-green: #16A36A;
+    --danger-red: #DC5252;
+  }
+
+  body {
+    background-color: var(--light-bg);
+    color: var(--primary-text);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+}
+
+/* Custom utility colors */
+.bg-primary-navy { background-color: #14213D; }
+.bg-dark-navy { background-color: #0D1930; }
+.bg-secondary-navy { background-color: #1F3558; }
+.bg-accent-orange { background-color: #F4A62A; }
+.hover\:bg-accent-orange-hover:hover { background-color: #E0941F; }
+.bg-light-bg { background-color: #F7F8FA; }
+.text-primary-navy { color: #14213D; }
+.text-dark-navy { color: #0D1930; }
+.text-secondary-navy { color: #1F3558; }
+.text-accent-orange { color: #F4A62A; }
+.text-primary-text { color: #202B3C; }
+.text-secondary-text { color: #788397; }
+.border-border-color { border-color: #E7EAF0; }
+.border-accent-orange { border-color: #F4A62A; }
+.text-success-green { color: #16A36A; }
+.text-danger-red { color: #DC5252; }
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f3f7;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Handwritten / accent font styling for "Study Smart Achieve More" */
+.font-script {
+  font-family: 'Caveat', 'Segoe Script', cursive, sans-serif;
+}
