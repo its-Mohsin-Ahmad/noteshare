@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProvider } from './context/AppContext';
+import { GlobalBackground } from './components/background/GlobalBackground';
 
 // Layouts
 import { PublicLayout } from './components/layout/PublicLayout';
@@ -52,7 +53,8 @@ import { AdminProfile } from './pages/admin/AdminProfile';
 export default function App() {
   return (
     <AppProvider>
-      <BrowserRouter>
+      <HashRouter>
+        <GlobalBackground />
         <Routes>
           {/* Public Website Routes */}
           <Route element={<PublicLayout />}>
@@ -117,7 +119,7 @@ export default function App() {
           {/* Fallback */}
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
-      </BrowserRouter>
+      </HashRouter>
     </AppProvider>
   );
 }

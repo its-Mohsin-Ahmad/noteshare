@@ -2,24 +2,25 @@
 
 @layer base {
   :root {
+    --primary-bg: #F8F7F3;
+    --secondary-bg: #F2F1EC;
+    --card-bg: #FFFFFF;
     --primary-navy: #14213D;
-    --dark-navy: #0D1930;
-    --secondary-navy: #1F3558;
-    --accent-orange: #F4A62A;
-    --accent-orange-hover: #E0941F;
-    --light-bg: #F7F8FA;
-    --white: #FFFFFF;
-    --primary-text: #202B3C;
-    --secondary-text: #788397;
-    --border-color: #E7EAF0;
+    --secondary-navy: #23395B;
+    --accent-orange: #F59E0B;
+    --accent-orange-hover: #D97706;
+    --soft-orange: #FFF0D6;
+    --border-color: #E8E6DF;
+    --primary-text: #14213D;
+    --secondary-text: #64748B;
     --success-green: #16A36A;
     --danger-red: #DC5252;
   }
 
   body {
-    background-color: var(--light-bg);
+    background-color: var(--primary-bg);
     color: var(--primary-text);
-    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     margin: 0;
     padding: 0;
     overflow-x: hidden;
@@ -27,20 +28,25 @@
 }
 
 /* Custom utility colors */
+.bg-primary-bg { background-color: #F8F7F3; }
+.bg-secondary-bg { background-color: #F2F1EC; }
+.bg-card-bg { background-color: #FFFFFF; }
 .bg-primary-navy { background-color: #14213D; }
-.bg-dark-navy { background-color: #0D1930; }
-.bg-secondary-navy { background-color: #1F3558; }
-.bg-accent-orange { background-color: #F4A62A; }
-.hover\:bg-accent-orange-hover:hover { background-color: #E0941F; }
-.bg-light-bg { background-color: #F7F8FA; }
+.bg-secondary-navy { background-color: #23395B; }
+.bg-accent-orange { background-color: #F59E0B; }
+.bg-soft-orange { background-color: #FFF0D6; }
+.hover\:bg-accent-orange-hover:hover { background-color: #D97706; }
+
 .text-primary-navy { color: #14213D; }
-.text-dark-navy { color: #0D1930; }
-.text-secondary-navy { color: #1F3558; }
-.text-accent-orange { color: #F4A62A; }
-.text-primary-text { color: #202B3C; }
-.text-secondary-text { color: #788397; }
-.border-border-color { border-color: #E7EAF0; }
-.border-accent-orange { border-color: #F4A62A; }
+.text-secondary-navy { color: #23395B; }
+.text-accent-orange { color: #F59E0B; }
+.text-primary-text { color: #14213D; }
+.text-secondary-text { color: #64748B; }
+
+.border-subtle { border-color: #E8E6DF; }
+.border-border-color { border-color: #E8E6DF; }
+.border-accent-orange { border-color: #F59E0B; }
+
 .text-success-green { color: #16A36A; }
 .text-danger-red { color: #DC5252; }
 
@@ -50,17 +56,53 @@
   height: 7px;
 }
 ::-webkit-scrollbar-track {
-  background: #f1f3f7;
+  background: #F2F1EC;
 }
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #D5D1C8;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #B8B3A8;
 }
 
 /* Handwritten / accent font styling for "Study Smart Achieve More" */
 .font-script {
   font-family: 'Caveat', 'Segoe Script', cursive, sans-serif;
+}
+
+/* Academic floating animations */
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.5deg);
+  }
+}
+
+@keyframes floatReverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(12px) rotate(-1.5deg);
+  }
+}
+
+.animate-float-slow {
+  animation: floatSlow 16s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: floatReverse 18s ease-in-out infinite;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }

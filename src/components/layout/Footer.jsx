@@ -14,8 +14,17 @@ import { Logo } from '../common/Logo';
 
 export const Footer = () => {
   return (
-    <footer className="bg-[#0D1930] text-slate-300 border-t border-[#1F3558] pt-14 pb-8">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="relative bg-[#14213D] text-slate-300 border-t border-[#1F3558] pt-14 pb-8 overflow-hidden">
+      {/* Subtle orange decorative particles in footer */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden select-none" aria-hidden="true">
+        <div className="absolute top-8 left-[15%] w-1.5 h-1.5 rounded-full bg-[#F59E0B] opacity-40 blur-[0.5px] animate-pulse" />
+        <div className="absolute top-1/2 right-[20%] w-2 h-2 rounded-full bg-[#F59E0B] opacity-35 blur-[1px] animate-float-slow" />
+        <div className="absolute bottom-10 left-[35%] w-1.5 h-1.5 rounded-full bg-[#F59E0B] opacity-50 blur-[0.5px]" />
+        <div className="absolute top-12 right-[8%] w-2.5 h-2.5 rounded-full bg-[#F59E0B] opacity-30 blur-[1px] animate-float-reverse" />
+        <div className="absolute bottom-16 right-[30%] w-1.5 h-1.5 rounded-full bg-[#F59E0B] opacity-40 blur-[0.5px] animate-pulse" />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-12 border-b border-[#1F3558]">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-4">

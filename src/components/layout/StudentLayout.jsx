@@ -59,7 +59,7 @@ export const StudentLayout = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#F7F8FA] flex">
+    <div className="relative z-10 min-h-screen bg-transparent flex">
       {/* Mobile Sidebar Backdrop */}
       {sidebarOpen && (
         <div

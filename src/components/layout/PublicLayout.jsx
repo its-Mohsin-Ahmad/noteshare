@@ -7,7 +7,7 @@ import { Toast } from '../common/Toast';
 
 export const PublicLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-[#F7F8FA]">
+    <div className="relative z-10 min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-1">
         <Outlet />

@@ -14,111 +14,80 @@ import { saveFileToDB, deleteFileFromDB, triggerBrowserDownload } from '../servi
 
 const AppContext = createContext();
 
+const safeLoad = (key, fallback) => {
+  try {
+    const saved = localStorage.getItem(key);
+    if (!saved || saved === 'undefined' || saved === 'null') return fallback;
+    return JSON.parse(saved);
+  } catch (err) {
+    console.warn(`Failed to parse localStorage key "${key}":`, err);
+    return fallback;
+  }
+};
+
 export const AppProvider = ({ children }) => {
   // Current user state (Student / Admin / Guest)
-  const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem('noteshare_user');
-    return saved ? JSON.parse(saved) : null;
-  });
+  const [user, setUser] = useState(() => safeLoad('noteshare_user', null));
 
   // Resources state
-  const [resources, setResources] = useState(() => {
-    const saved = localStorage.getItem('noteshare_resources');
-    return saved ? JSON.parse(saved) : INITIAL_RESOURCES;
-  });
+  const [resources, setResources] = useState(() => safeLoad('noteshare_resources', INITIAL_RESOURCES));
 
   // Subjects state
-  const [subjects, setSubjects] = useState(() => {
-    const saved = localStorage.getItem('noteshare_subjects');
-    return saved ? JSON.parse(saved) : INITIAL_SUBJECTS;
-  });
+  const [subjects, setSubjects] = useState(() => safeLoad('noteshare_subjects', INITIAL_SUBJECTS));
 
   // Departments state
-  const [departments, setDepartments] = useState(() => {
-    const saved = localStorage.getItem('noteshare_departments');
-    return saved ? JSON.parse(saved) : INITIAL_DEPARTMENTS;
-  });
+  const [departments, setDepartments] = useState(() => safeLoad('noteshare_departments', INITIAL_DEPARTMENTS));
 
   // Degree programs state
-  const [degreePrograms, setDegreePrograms] = useState(() => {
-    const saved = localStorage.getItem('noteshare_degree_programs');
-    return saved ? JSON.parse(saved) : INITIAL_DEGREE_PROGRAMS;
-  });
+  const [degreePrograms, setDegreePrograms] = useState(() => safeLoad('noteshare_degree_programs', INITIAL_DEGREE_PROGRAMS));
 
   // Semesters state
-  const [semesters, setSemesters] = useState(() => {
-    const saved = localStorage.getItem('noteshare_semesters');
-    return saved ? JSON.parse(saved) : INITIAL_SEMESTERS;
-  });
+  const [semesters, setSemesters] = useState(() => safeLoad('noteshare_semesters', INITIAL_SEMESTERS));
 
   // Announcements state
-  const [announcements, setAnnouncements] = useState(() => {
-    const saved = localStorage.getItem('noteshare_announcements');
-    return saved ? JSON.parse(saved) : INITIAL_ANNOUNCEMENTS;
-  });
+  const [announcements, setAnnouncements] = useState(() => safeLoad('noteshare_announcements', INITIAL_ANNOUNCEMENTS));
 
   // Registered students state
-  const [students, setStudents] = useState(() => {
-    const saved = localStorage.getItem('noteshare_students');
-    return saved ? JSON.parse(saved) : INITIAL_STUDENTS;
-  });
+  const [students, setStudents] = useState(() => safeLoad('noteshare_students', INITIAL_STUDENTS));
 
   // Student submissions (uploads pending review)
-  const [submissions, setSubmissions] = useState(() => {
-    const saved = localStorage.getItem('noteshare_submissions');
-    return saved ? JSON.parse(saved) : INITIAL_SUBMISSIONS;
-  });
+  const [submissions, setSubmissions] = useState(() => safeLoad('noteshare_submissions', INITIAL_SUBMISSIONS));
 
   // Notifications state
-  const [notifications, setNotifications] = useState(() => {
-    const saved = localStorage.getItem('noteshare_notifications');
-    return saved ? JSON.parse(saved) : INITIAL_NOTIFICATIONS;
-  });
+  const [notifications, setNotifications] = useState(() => safeLoad('noteshare_notifications', INITIAL_NOTIFICATIONS));
 
   // Favorites (Array of resource IDs)
-  const [favorites, setFavorites] = useState(() => {
-    const saved = localStorage.getItem('noteshare_favorites');
-    return saved ? JSON.parse(saved) : ['res-note-1', 'res-paper-1'];
-  });
+  const [favorites, setFavorites] = useState(() => safeLoad('noteshare_favorites', ['res-note-1', 'res-paper-1']));
 
   // Downloads history
-  const [downloads, setDownloads] = useState(() => {
-    const saved = localStorage.getItem('noteshare_downloads');
-    return saved ? JSON.parse(saved) : [
-      {
-        id: 'dl-1',
-        resourceId: 'res-note-1',
-        title: 'Data Structures Lecture Notes',
-        subject: 'Computer Science',
-        category: 'Notes',
-        fileType: 'PDF',
-        fileSize: '2.5 MB',
-        downloadedAt: new Date(Date.now() - 3600000 * 24).toISOString()
-      },
-      {
-        id: 'dl-2',
-        resourceId: 'res-paper-1',
-        title: 'Computer Science Final Term Paper 2024',
-        subject: 'Computer Science',
-        category: 'Past Papers',
-        fileType: 'PDF',
-        fileSize: '1.8 MB',
-        downloadedAt: new Date(Date.now() - 3600000 * 48).toISOString()
-      }
-    ];
-  });
+  const [downloads, setDownloads] = useState(() => safeLoad('noteshare_downloads', [
+    {
+      id: 'dl-1',
+      resourceId: 'res-note-1',
+      title: 'Data Structures Lecture Notes',
+      subject: 'Computer Science',
+      category: 'Notes',
+      fileType: 'PDF',
+      fileSize: '2.5 MB',
+      downloadedAt: new Date(Date.now() - 3600000 * 24).toISOString()
+    },
+    {
+      id: 'dl-2',
+      resourceId: 'res-paper-1',
+      title: 'Computer Science Final Term Paper 2024',
+      subject: 'Computer Science',
+      category: 'Past Papers',
+      fileType: 'PDF',
+      fileSize: '1.8 MB',
+      downloadedAt: new Date(Date.now() - 3600000 * 48).toISOString()
+    }
+  ]));
 
   // Recently viewed resource IDs
-  const [recentlyViewed, setRecentlyViewed] = useState(() => {
-    const saved = localStorage.getItem('noteshare_recently_viewed');
-    return saved ? JSON.parse(saved) : ['res-note-1', 'res-paper-1', 'res-note-2'];
-  });
+  const [recentlyViewed, setRecentlyViewed] = useState(() => safeLoad('noteshare_recently_viewed', ['res-note-1', 'res-paper-1', 'res-note-2']));
 
   // Reported resources
-  const [reports, setReports] = useState(() => {
-    const saved = localStorage.getItem('noteshare_reports');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [reports, setReports] = useState(() => safeLoad('noteshare_reports', []));
 
   // Active resource in PDF Preview modal
   const [previewResource, setPreviewResource] = useState(null);

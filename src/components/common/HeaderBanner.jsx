@@ -17,35 +17,35 @@ export const HeaderBanner = ({
   }
 
   return (
-    <div className="relative w-full bg-[#0D1930] text-white overflow-hidden py-10 md:py-14 border-b border-[#1F3558]">
-      {/* Background library & lighting overlay */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center opacity-25 mix-blend-luminosity pointer-events-none"
-        style={{
-          backgroundImage: `url('https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1600&auto=format&fit=crop')`
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0D1930] via-[#0D1930]/90 to-[#14213D]/80" />
-
-      {/* Decorative blurred lights */}
-      <div className="absolute -top-12 right-1/4 w-72 h-72 bg-[#F4A62A]/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-96 h-96 bg-[#1F3558]/30 rounded-full blur-2xl pointer-events-none" />
+    <div className="relative w-full bg-[#F8F7F3]/95 text-[#14213D] overflow-hidden py-10 md:py-14 border-b border-[#E8E6DF]">
+      {/* Subtle organic light wash */}
+      <div className="absolute -top-12 right-1/4 w-80 h-80 bg-[#F59E0B]/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-10 w-96 h-96 bg-[#14213D]/5 rounded-full blur-2xl pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div className="max-w-2xl">
             {/* Pill Badge */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1F3558]/80 border border-[#F4A62A]/30 text-xs font-semibold text-[#F4A62A] mb-3 shadow-inner">
-              <BookOpen className="w-3.5 h-3.5 text-[#F4A62A]" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF0D6] border border-[#F59E0B]/30 text-xs font-semibold text-[#D97706] mb-3 shadow-xs">
+              <BookOpen className="w-3.5 h-3.5 text-[#F59E0B]" />
               <span>{badge}</span>
             </div>
 
             {/* Page Heading */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-[#14213D] leading-tight">
               {highlightWord ? (
                 <>
                   {titleParts[0]}
-                  <span className="text-[#F4A62A]">{highlightWord}</span>
+                  <span className="text-[#F59E0B] relative inline-block">
+                    {highlightWord}
+                    <svg
+                      className="absolute -bottom-1.5 left-0 w-full h-2.5 text-[#F59E0B]/40"
+                      viewBox="0 0 100 20"
+                      preserveAspectRatio="none"
+                    >
+                      <path d="M0 15 Q 50 0, 100 15" stroke="currentColor" strokeWidth="4" fill="none" />
+                    </svg>
+                  </span>
                   {titleParts[1] || ''}
                 </>
               ) : (
@@ -54,26 +54,26 @@ export const HeaderBanner = ({
             </h1>
 
             {/* Subtitle */}
-            <p className="mt-3 text-base sm:text-lg text-slate-300 font-normal leading-relaxed">
+            <p className="mt-3 text-base sm:text-lg text-[#64748B] font-normal leading-relaxed">
               {subtitle}
             </p>
 
             {/* Breadcrumbs */}
             {breadcrumb.length > 0 && (
-              <div className="flex items-center gap-2 mt-4 text-xs font-medium text-slate-400">
-                <Link to="/" className="flex items-center gap-1 hover:text-[#F4A62A] transition-colors">
+              <div className="flex items-center gap-2 mt-4 text-xs font-medium text-slate-500">
+                <Link to="/" className="flex items-center gap-1 hover:text-[#14213D] transition-colors">
                   <Home className="w-3.5 h-3.5" />
                   <span>Home</span>
                 </Link>
                 {breadcrumb.map((item, idx) => (
                   <React.Fragment key={idx}>
-                    <ChevronRight className="w-3 h-3 text-slate-500" />
+                    <ChevronRight className="w-3 h-3 text-slate-400" />
                     {item.link ? (
-                      <Link to={item.link} className="hover:text-[#F4A62A] transition-colors">
+                      <Link to={item.link} className="hover:text-[#14213D] transition-colors">
                         {item.label}
                       </Link>
                     ) : (
-                      <span className="text-[#F4A62A] font-semibold">{item.label}</span>
+                      <span className="text-[#F59E0B] font-semibold">{item.label}</span>
                     )}
                   </React.Fragment>
                 ))}
@@ -81,26 +81,26 @@ export const HeaderBanner = ({
             )}
           </div>
 
-          {/* Right Visual Academic Accent (Matching Reference: Graduation cap over books & handwritten slogan) */}
+          {/* Right Visual Academic Accent */}
           <div className="hidden lg:flex items-center justify-end flex-shrink-0 relative">
             <div className="flex flex-col items-end pr-4">
-              <div className="flex items-center gap-2 text-white font-script text-2xl tracking-wide rotate-[-3deg] text-[#F4A62A]">
+              <div className="flex items-center gap-2 font-script text-2xl tracking-wide rotate-[-3deg] text-[#F59E0B]">
                 <span>Study Smart</span>
-                <span className="text-white">Achieve More</span>
+                <span className="text-[#14213D]">Achieve More</span>
               </div>
-              <div className="w-28 h-1 bg-[#F4A62A] rounded-full mt-1 mb-3 rotate-[-3deg] opacity-70" />
+              <div className="w-28 h-1 bg-[#F59E0B] rounded-full mt-1 mb-3 rotate-[-3deg] opacity-60" />
             </div>
 
             <div className="relative group">
-              <div className="w-36 h-28 rounded-2xl bg-gradient-to-tr from-[#14213D] to-[#1F3558] border border-[#F4A62A]/30 p-2 shadow-2xl flex flex-col items-center justify-center transform hover:scale-105 transition-transform">
+              <div className="w-36 h-28 rounded-2xl bg-white border border-[#E8E6DF] p-2 shadow-lg shadow-slate-200/60 flex flex-col items-center justify-center transform hover:scale-105 transition-transform">
                 <div className="relative">
-                  <GraduationCap className="w-14 h-14 text-[#F4A62A] drop-shadow-md" />
+                  <GraduationCap className="w-14 h-14 text-[#F59E0B] drop-shadow-xs" />
                   <span className="absolute -bottom-1 -right-1 flex h-3 w-3">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F4A62A] opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#F4A62A]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F59E0B] opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[#F59E0B]"></span>
                   </span>
                 </div>
-                <div className="text-[11px] font-semibold text-slate-200 mt-1">Verified Academic</div>
+                <div className="text-[11px] font-bold text-[#14213D] mt-1">Verified Academic</div>
               </div>
             </div>
           </div>
