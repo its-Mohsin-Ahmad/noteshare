@@ -284,7 +284,23 @@ export const AppProvider = ({ children }) => {
       totalUploads: 0
     };
 
-    // Save student to Supabase
+    // Save student to Supabase Auth & DB
+    try {
+      await supabase.auth.signUp({
+        email: studentData.email,
+        password: studentData.password || 'password123',
+        options: {
+          data: {
+            name: studentData.fullName,
+            role: 'student',
+            regNo: newStudent.regNo
+          }
+        }
+      });
+    } catch (e) {
+      console.warn('Error signing up in Supabase Auth:', e);
+    }
+
     try {
       await supabase.from('students').insert(mapStudentToDB(newStudent));
     } catch (e) {
