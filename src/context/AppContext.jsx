@@ -240,11 +240,18 @@ export const AppProvider = ({ children }) => {
 
     if (isAdminEmail) {
       // Validate admin password
-      if (password && password !== 'admin123' && password !== 'password123') {
-        const { error: authErr } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
-        if (authErr && password !== 'admin123') {
-          return { success: false, error: 'Incorrect administrator password. Please try again.' };
+      let adminPasswordValid = password === 'admin123' || password === 'password123';
+      if (!adminPasswordValid) {
+        try {
+          const { error: authErr } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+          if (!authErr) adminPasswordValid = true;
+        } catch (e) {
+          adminPasswordValid = false;
         }
+      }
+
+      if (!adminPasswordValid) {
+        return { success: false, error: 'Incorrect administrator password. Please try again.' };
       }
 
       const adminUser = {
@@ -286,17 +293,42 @@ export const AppProvider = ({ children }) => {
     if (!matchedStudent) {
       return {
         success: false,
-        error: 'Account not found with this email. Please check your spelling or click "Create Free Account".'
+        error: 'Account not found with this email. Please check your spelling or click "Signup".'
       };
     }
 
-    // 5. Try Supabase Auth session
-    if (password) {
+    // 5. Strict Password Validation: Check against saved student password and Supabase Auth
+    let passwordMatches = false;
+
+    // Check against student record's saved password
+    if (matchedStudent.password && matchedStudent.password === password) {
+      passwordMatches = true;
+    } else if (!matchedStudent.password && (password === 'password123' || password === 'student123')) {
+      // Default seed demo students accept standard seed passwords
+      passwordMatches = true;
+    }
+
+    // Also verify with Supabase Auth session if not already matched
+    if (!passwordMatches && password) {
       try {
-        await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+        const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
+          email: cleanEmail,
+          password
+        });
+        if (authData?.user && !authErr) {
+          passwordMatches = true;
+        }
       } catch (e) {
-        // Fallback permitted for demo and registered accounts
+        // Auth check error
       }
+    }
+
+    // If password does not match, reject login!
+    if (!passwordMatches) {
+      return {
+        success: false,
+        error: 'Incorrect password. Please verify your password and try again.'
+      };
     }
 
     // 6. Successful login for detected student account
@@ -350,6 +382,7 @@ export const AppProvider = ({ children }) => {
       id: `std-${Date.now()}`,
       name: studentData.fullName,
       email: studentData.email,
+      password: studentData.password || 'password123',
       regNo: studentData.regNo || `REG-${Math.floor(1000 + Math.random() * 9000)}`,
       department: studentData.department || 'Computer Science',
       degreeProgram: studentData.degreeProgram || 'BS Computer Science',
