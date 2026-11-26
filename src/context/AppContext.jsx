@@ -271,8 +271,8 @@ export const AppProvider = ({ children }) => {
     // 2. Search student in memory list
     let matchedStudent = students.find((s) => s.email?.toLowerCase() === cleanEmail);
 
-    // 3. If not in memory, query live Supabase database
-    if (!matchedStudent) {
+    // 3. If not in memory or missing password, query live Supabase database
+    if (!matchedStudent || !matchedStudent.password) {
       try {
         const { data: dbStudent, error: dbErr } = await supabase
           .from('students')
@@ -297,19 +297,11 @@ export const AppProvider = ({ children }) => {
       };
     }
 
-    // 5. Strict Password Validation: Check against saved student password and Supabase Auth
+    // 5. Strict Password Validation: Check against Supabase Auth session, DB password, and demo defaults
     let passwordMatches = false;
 
-    // Check against student record's saved password
-    if (matchedStudent.password && matchedStudent.password === password) {
-      passwordMatches = true;
-    } else if (!matchedStudent.password && (password === 'password123' || password === 'student123')) {
-      // Default seed demo students accept standard seed passwords
-      passwordMatches = true;
-    }
-
-    // Also verify with Supabase Auth session if not already matched
-    if (!passwordMatches && password) {
+    // A. Check against Supabase Auth session first
+    if (password) {
       try {
         const { data: authData, error: authErr } = await supabase.auth.signInWithPassword({
           email: cleanEmail,
@@ -323,11 +315,25 @@ export const AppProvider = ({ children }) => {
       }
     }
 
+    // B. Check against student record's saved password in DB
+    if (!passwordMatches && matchedStudent?.password) {
+      if (matchedStudent.password.trim() === password.trim()) {
+        passwordMatches = true;
+      }
+    }
+
+    // C. Fallback for default seed demo accounts
+    if (!passwordMatches && (!matchedStudent?.password || matchedStudent.password === 'password123')) {
+      if (password === 'password123' || password === 'student123') {
+        passwordMatches = true;
+      }
+    }
+
     // If password does not match, reject login!
     if (!passwordMatches) {
       return {
         success: false,
-        error: 'Incorrect password. Please verify your password and try again.'
+        error: 'Incorrect password. Please verify your password or use "Forgot password?".'
       };
     }
 

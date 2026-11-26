@@ -18,6 +18,7 @@ import { About } from './pages/public/About';
 import { Login } from './pages/public/Login';
 import { CreateAccount } from './pages/public/CreateAccount';
 import { ForgotPassword } from './pages/public/ForgotPassword';
+import { ResetPassword } from './pages/public/ResetPassword';
 import { ResourceDetails } from './pages/public/ResourceDetails';
 import { ContactUs } from './pages/public/ContactUs';
 import { FAQ } from './pages/public/FAQ';
@@ -67,6 +68,7 @@ export default function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<CreateAccount />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/resource/:id" element={<ResourceDetails />} />
             <Route path="/contact" element={<ContactUs />} />
             <Route path="/faq" element={<FAQ />} />
