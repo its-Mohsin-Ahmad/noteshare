@@ -268,25 +268,26 @@ export const AppProvider = ({ children }) => {
       return { success: true, role: 'admin' };
     }
 
-    // 2. Search student in memory list
-    let matchedStudent = students.find((s) => s.email?.toLowerCase() === cleanEmail);
+    // 2. Query live Supabase database directly for authoritative student credentials & fresh data
+    let matchedStudent = null;
+    try {
+      const { data: dbStudent, error: dbErr } = await supabase
+        .from('students')
+        .select('*')
+        .ilike('email', cleanEmail)
+        .maybeSingle();
 
-    // 3. If not in memory or missing password, query live Supabase database
-    if (!matchedStudent || !matchedStudent.password) {
-      try {
-        const { data: dbStudent, error: dbErr } = await supabase
-          .from('students')
-          .select('*')
-          .ilike('email', cleanEmail)
-          .maybeSingle();
-
-        if (dbStudent && !dbErr) {
-          matchedStudent = mapStudentFromDB(dbStudent);
-          setStudents((prev) => [matchedStudent, ...prev.filter((s) => s.id !== matchedStudent.id)]);
-        }
-      } catch (err) {
-        console.warn('Student database lookup error:', err);
+      if (dbStudent && !dbErr) {
+        matchedStudent = mapStudentFromDB(dbStudent);
+        setStudents((prev) => [matchedStudent, ...prev.filter((s) => s.id !== matchedStudent.id)]);
       }
+    } catch (err) {
+      console.warn('Live student database lookup error:', err);
+    }
+
+    // Fallback to local memory if offline/network failure
+    if (!matchedStudent) {
+      matchedStudent = students.find((s) => s.email?.toLowerCase() === cleanEmail);
     }
 
     // 4. Strict check: If account is not found anywhere, reject and show error!
