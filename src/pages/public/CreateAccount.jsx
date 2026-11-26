@@ -89,16 +89,17 @@ export const CreateAccount = () => {
     }
   };
 
-  const handleFinalSubmit = (e) => {
+  const handleFinalSubmit = async (e) => {
     e.preventDefault();
     if (!agreeTerms || !agreePrivacy) {
       setError('You must agree to the Terms of Service and Privacy Policy.');
       return;
     }
 
-    const newStudent = registerStudent({
+    const newStudent = await registerStudent({
       fullName,
       email,
+      password,
       regNo,
       university,
       department,

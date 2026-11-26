@@ -229,7 +229,15 @@ export const AppProvider = ({ children }) => {
   useEffect(() => { localStorage.setItem('noteshare_reports', JSON.stringify(reports)); }, [reports]);
 
   // --- AUTHENTICATION ---
-  const login = (email, password, roleHint = 'student') => {
+  const login = async (email, password, roleHint = 'student') => {
+    try {
+      if (password) {
+        await supabase.auth.signInWithPassword({ email, password });
+      }
+    } catch (e) {
+      console.warn('Supabase auth signIn error:', e);
+    }
+
     if (roleHint === 'admin' || email.toLowerCase().includes('admin')) {
       const adminUser = {
         id: 'admin-1',
@@ -262,7 +270,12 @@ export const AppProvider = ({ children }) => {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      await supabase.auth.signOut();
+    } catch (e) {
+      console.warn('Supabase auth signOut error:', e);
+    }
     setUser(null);
     showToast('Logged out successfully', 'info');
   };
