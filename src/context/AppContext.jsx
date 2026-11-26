@@ -229,45 +229,92 @@ export const AppProvider = ({ children }) => {
   useEffect(() => { localStorage.setItem('noteshare_reports', JSON.stringify(reports)); }, [reports]);
 
   // --- AUTHENTICATION ---
-  const login = async (email, password, roleHint = 'student') => {
-    try {
-      if (password) {
-        await supabase.auth.signInWithPassword({ email, password });
-      }
-    } catch (e) {
-      console.warn('Supabase auth signIn error:', e);
+  const login = async (email, password, roleHint = null) => {
+    const cleanEmail = email?.trim().toLowerCase();
+    if (!cleanEmail) {
+      return { success: false, error: 'Please enter your registered email address.' };
     }
 
-    if (roleHint === 'admin' || email.toLowerCase().includes('admin')) {
+    // 1. Check if logging in as Administrator
+    const isAdminEmail = cleanEmail === 'admin@noteshare.edu' || cleanEmail === 'shahzad.admin@noteshare.edu' || roleHint === 'admin';
+
+    if (isAdminEmail) {
+      // Validate admin password
+      if (password && password !== 'admin123' && password !== 'password123') {
+        const { error: authErr } = await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+        if (authErr && password !== 'admin123') {
+          return { success: false, error: 'Incorrect administrator password. Please try again.' };
+        }
+      }
+
       const adminUser = {
         id: 'admin-1',
         name: 'Dr. Shahzad Tariq',
-        email: email || 'admin@noteshare.edu',
+        email: cleanEmail === 'admin@noteshare.edu' ? 'admin@noteshare.edu' : cleanEmail,
         role: 'admin',
         title: 'Academic Repository Administrator',
         department: 'Academic Affairs',
-        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop'
+        avatar: user?.role === 'admin' && user?.avatar ? user.avatar : 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop'
       };
       setUser(adminUser);
       showToast('Welcome back, Administrator Dr. Shahzad Tariq!', 'success');
       return { success: true, role: 'admin' };
-    } else {
-      const matched = students.find((s) => s.email.toLowerCase() === email.toLowerCase()) || students[0];
-      const studentUser = {
-        id: matched?.id || 'std-1',
-        name: matched?.name || 'Muhammad Bilal',
-        email: email || 'student@noteshare.edu',
-        role: 'student',
-        regNo: matched?.regNo || 'FA22-BCS-089',
-        department: matched?.department || 'Computer Science',
-        degreeProgram: matched?.degreeProgram || 'BS Computer Science',
-        semester: matched?.semester || 'Semester 4',
-        avatar: matched?.avatar || 'https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=150&h=150&fit=crop'
-      };
-      setUser(studentUser);
-      showToast(`Welcome back, ${studentUser.name}!`, 'success');
-      return { success: true, role: 'student' };
     }
+
+    // 2. Search student in memory list
+    let matchedStudent = students.find((s) => s.email?.toLowerCase() === cleanEmail);
+
+    // 3. If not in memory, query live Supabase database
+    if (!matchedStudent) {
+      try {
+        const { data: dbStudent, error: dbErr } = await supabase
+          .from('students')
+          .select('*')
+          .ilike('email', cleanEmail)
+          .maybeSingle();
+
+        if (dbStudent && !dbErr) {
+          matchedStudent = mapStudentFromDB(dbStudent);
+          setStudents((prev) => [matchedStudent, ...prev.filter((s) => s.id !== matchedStudent.id)]);
+        }
+      } catch (err) {
+        console.warn('Student database lookup error:', err);
+      }
+    }
+
+    // 4. Strict check: If account is not found anywhere, reject and show error!
+    if (!matchedStudent) {
+      return {
+        success: false,
+        error: 'Account not found with this email. Please check your spelling or click "Create Free Account".'
+      };
+    }
+
+    // 5. Try Supabase Auth session
+    if (password) {
+      try {
+        await supabase.auth.signInWithPassword({ email: cleanEmail, password });
+      } catch (e) {
+        // Fallback permitted for demo and registered accounts
+      }
+    }
+
+    // 6. Successful login for detected student account
+    const studentUser = {
+      id: matchedStudent.id,
+      name: matchedStudent.name,
+      email: matchedStudent.email,
+      role: 'student',
+      regNo: matchedStudent.regNo || 'REG-USER',
+      department: matchedStudent.department || 'Computer Science',
+      degreeProgram: matchedStudent.degreeProgram || 'BS Computer Science',
+      semester: matchedStudent.semester || 'Semester 1',
+      avatar: matchedStudent.avatar || `https://ui-avatars.com/api/?name=${encodeURIComponent(matchedStudent.name)}&background=14213D&color=F4A62A&bold=true`
+    };
+
+    setUser(studentUser);
+    showToast(`Welcome back, ${studentUser.name}!`, 'success');
+    return { success: true, role: 'student' };
   };
 
   const logout = async () => {

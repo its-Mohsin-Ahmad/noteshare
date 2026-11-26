@@ -15,7 +15,7 @@ export const Login = () => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
 
@@ -25,29 +25,44 @@ export const Login = () => {
     }
 
     setLoading(true);
-    setTimeout(() => {
-      const res = login(email, password);
+    try {
+      const res = await login(email, password);
       setLoading(false);
+      if (!res.success) {
+        setError(res.error || 'Account not detected. Please verify your email or click Create Account.');
+        return;
+      }
       if (res.role === 'admin') {
         navigate('/admin');
       } else {
         navigate('/student');
       }
-    }, 400);
+    } catch (err) {
+      setLoading(false);
+      setError('Login connection error. Please try again.');
+    }
   };
 
   // Quick 1-click test credentials
-  const handleQuickDemo = (role) => {
+  const handleQuickDemo = async (role) => {
+    setError('');
+    setLoading(true);
     if (role === 'admin') {
       setEmail('admin@noteshare.edu');
       setPassword('admin123');
-      const res = login('admin@noteshare.edu', 'admin123', 'admin');
-      navigate('/admin');
+      const res = await login('admin@noteshare.edu', 'admin123', 'admin');
+      setLoading(false);
+      if (res.success) {
+        navigate('/admin');
+      }
     } else {
       setEmail('student@noteshare.edu');
-      setPassword('student123');
-      const res = login('student@noteshare.edu', 'student123', 'student');
-      navigate('/student');
+      setPassword('password123');
+      const res = await login('student@noteshare.edu', 'password123', 'student');
+      setLoading(false);
+      if (res.success) {
+        navigate('/student');
+      }
     }
   };
 
