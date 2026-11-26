@@ -280,7 +280,25 @@ export const AppProvider = ({ children }) => {
     showToast('Logged out successfully', 'info');
   };
 
-  const registerStudent = async (studentData) => {
+  const registerStudent = async (studentData, avatarFile = null) => {
+    let avatarUrl = studentData.avatar || null;
+    
+    // Upload custom profile picture to Supabase Storage if file is provided
+    if (avatarFile) {
+      try {
+        const uploaded = await uploadFileToStorage(avatarFile, 'avatars');
+        if (uploaded) {
+          avatarUrl = uploaded;
+        }
+      } catch (e) {
+        console.warn('Avatar upload error:', e);
+      }
+    }
+
+    if (!avatarUrl) {
+      avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(studentData.fullName || 'Student')}&background=14213D&color=F4A62A&bold=true`;
+    }
+
     const newStudent = {
       id: `std-${Date.now()}`,
       name: studentData.fullName,
@@ -292,7 +310,7 @@ export const AppProvider = ({ children }) => {
       session: studentData.session || '2024-2028',
       status: 'Active',
       joinDate: new Date().toISOString().split('T')[0],
-      avatar: studentData.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop',
+      avatar: avatarUrl,
       totalDownloads: 0,
       totalUploads: 0
     };
