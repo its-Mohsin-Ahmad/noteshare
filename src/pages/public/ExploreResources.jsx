@@ -25,6 +25,7 @@ export const ExploreResources = () => {
   const queryParam = searchParams.get('search') || '';
   const categoryParam = searchParams.get('category') || 'All Resources';
   const subjectParam = searchParams.get('subject') || '';
+  const departmentParam = searchParams.get('department') || '';
   const semesterParam = searchParams.get('semester') || '';
   const sortParam = searchParams.get('sort') || 'newest';
 
@@ -32,7 +33,7 @@ export const ExploreResources = () => {
   const [searchQuery, setSearchQuery] = useState(queryParam);
   const [selectedCategory, setSelectedCategory] = useState(categoryParam);
   const [selectedSubject, setSelectedSubject] = useState(subjectParam);
-  const [selectedDepartment, setSelectedDepartment] = useState('');
+  const [selectedDepartment, setSelectedDepartment] = useState(departmentParam);
   const [selectedSemester, setSelectedSemester] = useState(semesterParam);
   const [selectedSort, setSelectedSort] = useState(sortParam);
   const [viewMode, setViewMode] = useState('grid');
@@ -44,8 +45,9 @@ export const ExploreResources = () => {
     if (queryParam) setSearchQuery(queryParam);
     if (categoryParam) setSelectedCategory(categoryParam);
     if (subjectParam) setSelectedSubject(subjectParam);
+    if (departmentParam) setSelectedDepartment(departmentParam);
     if (semesterParam) setSelectedSemester(semesterParam);
-  }, [queryParam, categoryParam, subjectParam, semesterParam]);
+  }, [queryParam, categoryParam, subjectParam, departmentParam, semesterParam]);
 
   const categoryTabs = [
     { label: 'All Resources', value: 'All Resources' },
