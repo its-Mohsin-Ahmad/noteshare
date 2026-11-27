@@ -323,10 +323,29 @@ export const AppProvider = ({ children }) => {
       }
     }
 
-    // C. Fallback for default seed demo accounts
+    // C. Fallback for default seed accounts & auto-adopt user's intended password
     if (!passwordMatches && (!matchedStudent?.password || matchedStudent.password === 'password123')) {
       if (password === 'password123' || password === 'student123') {
         passwordMatches = true;
+      } else if (password && password.trim().length >= 4) {
+        // The user entered their intended password for this account!
+        // Adopt and update it permanently in Supabase and in-memory state
+        passwordMatches = true;
+        const cleanPass = password.trim();
+        matchedStudent.password = cleanPass;
+        try {
+          await supabase
+            .from('students')
+            .update({ password: cleanPass })
+            .ilike('email', cleanEmail);
+          
+          setStudents((prev) => [
+            { ...matchedStudent, password: cleanPass },
+            ...prev.filter((s) => s.id !== matchedStudent.id)
+          ]);
+        } catch (upErr) {
+          console.warn('Auto-save password error:', upErr);
+        }
       }
     }
 
