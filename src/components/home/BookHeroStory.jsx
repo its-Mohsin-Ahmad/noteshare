@@ -41,7 +41,6 @@ export const BookHeroStory = () => {
   const glowRef = useRef(null);
   const bgTypeRef = useRef(null);
   const decorRef = useRef(null);
-  const cardsSectionRef = useRef(null);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -446,21 +445,7 @@ export const BookHeroStory = () => {
         });
       });
 
-      // 3. SIX RESOURCE CARDS STAGGER ENTRANCE
-      gsap.from('.resource-discovery-card', {
-        y: 38,
-        opacity: 0,
-        duration: 0.75,
-        stagger: 0.09,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: cardsSectionRef.current,
-          start: 'top 82%',
-          once: true
-        }
-      });
-
-      // 4. MOUSE-FOLLOW 3D PARALLAX ON DESKTOP
+      // 3. MOUSE-FOLLOW 3D PARALLAX ON DESKTOP
       if (window.matchMedia('(min-width: 1024px)').matches && bookTiltRef.current && stageRef.current) {
         const rotX = gsap.quickTo(bookTiltRef.current, 'rotateX', { duration: 0.55, ease: 'power3.out' });
         const rotY = gsap.quickTo(bookTiltRef.current, 'rotateY', { duration: 0.55, ease: 'power3.out' });
@@ -494,51 +479,6 @@ export const BookHeroStory = () => {
 
     return () => ctx.revert();
   }, []);
-
-  const discoveryCards = [
-    {
-      title: 'Notes',
-      description: 'Structured handwritten & typed semester notes curated by top students and faculty.',
-      icon: FileText,
-      to: '/notes',
-      accent: 'bg-amber-50 text-[#D97706] border-amber-200/70'
-    },
-    {
-      title: 'Past Papers',
-      description: 'Verified midterm & final examination papers with solved references across sessions.',
-      icon: FileCheck,
-      to: '/past-papers',
-      accent: 'bg-slate-100 text-[#14213D] border-slate-200'
-    },
-    {
-      title: 'Assignments',
-      description: 'Lab manuals, problem sets, and graded assignment templates to guide your coursework.',
-      icon: ClipboardList,
-      to: '/explore?category=Assignments',
-      accent: 'bg-orange-50 text-[#EA580C] border-orange-200/70'
-    },
-    {
-      title: 'Lecture Slides',
-      description: 'Official classroom presentation decks and weekly topic summaries ready to review.',
-      icon: Presentation,
-      to: '/explore?category=Lecture%20Slides',
-      accent: 'bg-amber-50 text-[#D97706] border-amber-200/70'
-    },
-    {
-      title: 'Subjects',
-      description: 'Browse dedicated course hubs organized by subject code, credit hours, and syllabus.',
-      icon: Layers,
-      to: '/subjects',
-      accent: 'bg-slate-100 text-[#14213D] border-slate-200'
-    },
-    {
-      title: 'Departments',
-      description: 'Explore academic repositories tailored for Computer Science, Engineering, and more.',
-      icon: Building2,
-      to: '/explore?category=Departments',
-      accent: 'bg-orange-50 text-[#EA580C] border-orange-200/70'
-    }
-  ];
 
   return (
     <div ref={rootRef} className="relative overflow-x-hidden">
@@ -915,65 +855,6 @@ export const BookHeroStory = () => {
             <span>Explore Resources</span>
             <ArrowRight className="w-3.5 h-3.5" />
           </Link>
-        </div>
-      </section>
-
-      {/* ===================================================================== */}
-      {/* SIX PREMIUM RESOURCE DISCOVERY CARDS                                  */}
-      {/* ===================================================================== */}
-      <section
-        ref={cardsSectionRef}
-        className="relative bg-[#F8F7F3] py-16 sm:py-20 border-b border-[#E8E6DF]"
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
-            <div>
-              <div className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#D97706] mb-2">
-                <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
-                <span>Curated Academic Library</span>
-              </div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-[#14213D] tracking-tight">
-                Explore by Resource Category
-              </h2>
-            </div>
-            <Link
-              to="/explore"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-[#14213D] hover:text-[#F59E0B] transition-colors"
-            >
-              <span>View Complete Catalog</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-            {discoveryCards.map((card) => {
-              const Icon = card.icon;
-              return (
-                <Link
-                  key={card.title}
-                  to={card.to}
-                  className="resource-discovery-card group bg-white rounded-2xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-[0_8px_24px_-12px_rgba(20,33,61,0.08)] hover:shadow-[0_18px_36px_-12px_rgba(245,158,11,0.18)] transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
-                >
-                  <div>
-                    <div className="flex items-start justify-between mb-4">
-                      <div className={`w-11 h-11 rounded-xl border flex items-center justify-center ${card.accent}`}>
-                        <Icon className="w-5 h-5" />
-                      </div>
-                      <span className="w-8 h-8 rounded-full bg-[#F8F7F3] group-hover:bg-[#F59E0B] text-[#14213D] group-hover:text-white flex items-center justify-center transition-colors">
-                        <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-extrabold text-[#14213D] group-hover:text-[#D97706] transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-[#64748B] mt-1.5 leading-relaxed">
-                      {card.description}
-                    </p>
-                  </div>
-                </Link>
-              );
-            })}
-          </div>
         </div>
       </section>
     </div>

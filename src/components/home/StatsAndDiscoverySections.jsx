@@ -26,7 +26,10 @@ import {
   Presentation,
   Filter,
   Sparkles,
-  ChevronRight
+  ChevronRight,
+  Activity,
+  HeartPulse,
+  Scale
 } from 'lucide-react';
 import { useApp } from '../../context/AppContext';
 
@@ -42,10 +45,10 @@ const getDepartmentVisual = (name = '') => {
   if (n.includes('mechanical') || n.includes('chemical')) return { icon: Cpu, tint: 'bg-amber-50 text-amber-800 border-amber-200' };
   if (n.includes('math')) return { icon: Calculator, tint: 'bg-amber-50 text-[#D97706] border-amber-200/80' };
   if (n.includes('physics')) return { icon: Atom, tint: 'bg-slate-100 text-[#14213D] border-slate-200' };
-  if (n.includes('chem') || n.includes('bio') || n.includes('micro') || n.includes('env')) return { icon: FlaskConical, tint: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
+  if (n.includes('chem') || n.includes('bio') || n.includes('micro') || n.includes('env') || n.includes('biotech')) return { icon: FlaskConical, tint: 'bg-emerald-50 text-emerald-700 border-emerald-200' };
   if (n.includes('business') || n.includes('account') || n.includes('econ')) return { icon: Briefcase, tint: 'bg-orange-50 text-[#EA580C] border-orange-200/80' };
-  if (n.includes('medical') || n.includes('pharm') || n.includes('health')) return { icon: GraduationCap, tint: 'bg-rose-50 text-rose-700 border-rose-200' };
-  if (n.includes('law') || n.includes('political') || n.includes('relation')) return { icon: BookMarked, tint: 'bg-indigo-50 text-indigo-700 border-indigo-200' };
+  if (n.includes('medical') || n.includes('pharm') || n.includes('health')) return { icon: HeartPulse, tint: 'bg-rose-50 text-rose-700 border-rose-200' };
+  if (n.includes('law') || n.includes('political') || n.includes('relation') || n.includes('islam')) return { icon: Scale, tint: 'bg-indigo-50 text-indigo-700 border-indigo-200' };
   return { icon: BookOpen, tint: 'bg-slate-100 text-[#14213D] border-slate-200' };
 };
 
@@ -96,41 +99,24 @@ export const StatsSection = () => {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReduced || !sectionRef.current) return;
 
-    const ctx = gsap.context(() => {
-      gsap.from('.stat-item', {
-        y: 26,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.1,
-        ease: 'power3.out',
+    statsData.forEach((stat) => {
+      const el = sectionRef.current?.querySelector(`[data-stat-id="${stat.id}"]`);
+      if (!el) return;
+      const counter = { val: 0 };
+      gsap.to(counter, {
+        val: stat.value,
+        duration: 1.2,
+        ease: 'power2.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 85%',
+          start: 'top 95%',
           once: true
+        },
+        onUpdate: () => {
+          el.textContent = `${Math.round(counter.val).toLocaleString()}${stat.suffix}`;
         }
       });
-
-      statsData.forEach((stat) => {
-        const el = sectionRef.current.querySelector(`[data-stat-id="${stat.id}"]`);
-        if (!el) return;
-        const counter = { val: 0 };
-        gsap.to(counter, {
-          val: stat.value,
-          duration: 1.5,
-          ease: 'power2.out',
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top 85%',
-            once: true
-          },
-          onUpdate: () => {
-            el.textContent = `${Math.round(counter.val).toLocaleString()}${stat.suffix}`;
-          }
-        });
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
+    });
   }, [students.length, publishedCount, totalDownloadsCount, departments.length]);
 
   return (
@@ -169,10 +155,9 @@ export const StatsSection = () => {
   );
 };
 
-// 2. RESOURCE CATEGORIES SECTION (6 Attractively Designed Resource Cards)
+// 2. RESOURCE CATEGORIES SECTION (Guaranteed 100% visible 6 Cards)
 export const ResourceCategoriesSection = () => {
   const { resources } = useApp();
-  const sectionRef = useRef(null);
 
   const categories = [
     {
@@ -225,32 +210,10 @@ export const ResourceCategoriesSection = () => {
     }
   ];
 
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from('.cat-card', {
-        y: 28,
-        opacity: 0,
-        duration: 0.7,
-        stagger: 0.08,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 82%',
-          once: true
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <section ref={sectionRef} className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
+    <section className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-14">
+        <div className="text-center max-w-3xl mx-auto mb-12">
           <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#D97706] mb-2">
             <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
             Academic Resource Categories
@@ -266,12 +229,17 @@ export const ResourceCategoriesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {categories.map((cat) => {
             const Icon = cat.icon;
-            const count = resources.filter((r) => r.isPublished && (r.category === cat.id || (cat.id === 'Past Papers' && (r.examType === 'Midterm' || r.examType === 'Final Term')))).length;
+            const count = resources.filter(
+              (r) =>
+                r.isPublished &&
+                (r.category === cat.id ||
+                  (cat.id === 'Past Papers' && (r.examType === 'Midterm' || r.examType === 'Final Term')))
+            ).length;
 
             return (
               <div
                 key={cat.id}
-                className="cat-card bg-white rounded-3xl p-7 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
+                className="bg-white rounded-3xl p-7 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-5">
@@ -313,7 +281,6 @@ export const ResourceCategoriesSection = () => {
 };
 
 // 3. INTERACTIVE CONNECTED ACADEMIC HIERARCHY EXPLORER
-// Department -> Degree Program -> Semester -> Subject -> Direct Filtered Resources
 export const AcademicHierarchyExplorer = () => {
   const { departments, degreePrograms, semesters, subjects, resources } = useApp();
   const [selectedDept, setSelectedDept] = useState('Computer Science');
@@ -333,14 +300,25 @@ export const AcademicHierarchyExplorer = () => {
     }
   }, [availablePrograms, selectedProgram]);
 
-  // Filter subjects based on program, department, and semester
-  const availableSubjects = useMemo(() => {
-    return subjects.filter((s) => {
-      const matchDept = !selectedDept || s.department === selectedDept;
+  // Comprehensive subject matcher:
+  // Shows subjects that match the program OR the department for the chosen semester,
+  // falling back gracefully so courses are always populated and visible.
+  const displayedCourses = useMemo(() => {
+    const directMatches = subjects.filter((s) => {
+      const matchProg = s.degreeProgram === selectedProgram;
+      const matchDept = s.department === selectedDept;
       const matchSem = !selectedSemester || s.semester === selectedSemester;
-      return matchDept && matchSem;
+      return (matchProg || matchDept) && matchSem;
     });
-  }, [subjects, selectedDept, selectedSemester]);
+
+    if (directMatches.length > 0) return directMatches;
+
+    // Fallback: show other available courses in this program/department
+    const departmentCourses = subjects.filter(
+      (s) => s.department === selectedDept || s.degreeProgram === selectedProgram
+    );
+    return departmentCourses.length > 0 ? departmentCourses.slice(0, 3) : subjects.slice(0, 3);
+  }, [subjects, selectedProgram, selectedDept, selectedSemester]);
 
   return (
     <section className="relative bg-[#F2F1EC]/70 py-16 sm:py-24 border-b border-[#E8E6DF]">
@@ -358,12 +336,12 @@ export const AcademicHierarchyExplorer = () => {
           </p>
         </div>
 
-        {/* 4-Step Interactive Breadcrumb Card */}
+        {/* 3-Step Interactive Selectors */}
         <div className="bg-white rounded-3xl border border-[#E8E6DF] shadow-md p-6 sm:p-8 mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {/* Step 1: Department Selector */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-[#14213D] text-[#F59E0B] text-[10px] flex items-center justify-center font-bold">1</span>
                 Academic Department
               </label>
@@ -382,7 +360,7 @@ export const AcademicHierarchyExplorer = () => {
 
             {/* Step 2: Degree Program Selector */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-[#14213D] text-[#F59E0B] text-[10px] flex items-center justify-center font-bold">2</span>
                 Degree Program
               </label>
@@ -401,7 +379,7 @@ export const AcademicHierarchyExplorer = () => {
 
             {/* Step 3: Semester Selector */}
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
+              <label className="text-xs font-bold uppercase tracking-wider text-[#14213D] mb-2 flex items-center gap-2">
                 <span className="w-5 h-5 rounded-full bg-[#14213D] text-[#F59E0B] text-[10px] flex items-center justify-center font-bold">3</span>
                 Current Semester
               </label>
@@ -420,7 +398,7 @@ export const AcademicHierarchyExplorer = () => {
           </div>
         </div>
 
-        {/* Step 4: Available Subjects for this Selection */}
+        {/* Available Subjects for Selection */}
         <div>
           <div className="flex items-center justify-between mb-6">
             <div>
@@ -440,75 +418,60 @@ export const AcademicHierarchyExplorer = () => {
             </Link>
           </div>
 
-          {availableSubjects.length > 0 ? (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {availableSubjects.map((sub) => {
-                const subResources = resources.filter((r) => r.isPublished && (r.subject === sub.name || r.subjectCode === sub.code));
-                return (
-                  <div
-                    key={sub.id}
-                    className="bg-white rounded-2xl p-5 border border-[#E8E6DF] hover:border-[#F59E0B] shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
-                  >
-                    <div>
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-[#FFF0D6] border border-[#F59E0B]/30 text-[#D97706]">
-                          {sub.code}
-                        </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F8F7F3] text-[#64748B]">
-                          {sub.type || 'Core'}
-                        </span>
-                      </div>
-                      <h4 className="text-base font-bold text-[#14213D] group-hover:text-[#D97706] transition-colors">
-                        {sub.name}
-                      </h4>
-                      <p className="text-xs text-[#64748B] mt-1.5 line-clamp-2 leading-relaxed">
-                        {sub.description || `Academic course materials for ${sub.name}.`}
-                      </p>
-                    </div>
-
-                    <div className="mt-5 pt-3.5 border-t border-[#E8E6DF] flex items-center justify-between">
-                      <span className="text-xs font-bold text-[#64748B]">
-                        {subResources.length} files available
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            {displayedCourses.map((sub) => {
+              const subResources = resources.filter(
+                (r) => r.isPublished && (r.subject === sub.name || r.subjectCode === sub.code)
+              );
+              return (
+                <div
+                  key={sub.id}
+                  className="bg-white rounded-2xl p-5 border border-[#E8E6DF] hover:border-[#F59E0B] shadow-2xs hover:shadow-md transition-all flex flex-col justify-between group"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-[11px] font-extrabold px-2.5 py-1 rounded-lg bg-[#FFF0D6] border border-[#F59E0B]/30 text-[#D97706]">
+                        {sub.code}
                       </span>
-                      <Link
-                        to={`/explore?subject=${encodeURIComponent(sub.name)}&semester=${encodeURIComponent(selectedSemester)}`}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-[#14213D] group-hover:text-[#F59E0B]"
-                      >
-                        <span>Open Course</span>
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
+                      <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-[#F8F7F3] text-[#64748B]">
+                        {sub.type || 'Core'}
+                      </span>
                     </div>
+                    <h4 className="text-base font-bold text-[#14213D] group-hover:text-[#D97706] transition-colors">
+                      {sub.name}
+                    </h4>
+                    <p className="text-xs text-[#64748B] mt-1.5 line-clamp-2 leading-relaxed">
+                      {sub.description || `Academic course materials and verified syllabus for ${sub.name}.`}
+                    </p>
                   </div>
-                );
-              })}
-            </div>
-          ) : (
-            <div className="bg-white rounded-2xl p-8 border border-[#E8E6DF] text-center">
-              <FolderOpen className="w-10 h-10 text-[#64748B]/40 mx-auto mb-3" />
-              <h4 className="text-base font-bold text-[#14213D]">No specific subjects listed for this semester yet</h4>
-              <p className="text-xs text-[#64748B] mt-1 mb-4">
-                You can still explore general departmental resources or switch semesters.
-              </p>
-              <Link
-                to={`/explore?department=${encodeURIComponent(selectedDept)}`}
-                className="inline-flex items-center gap-2 bg-[#14213D] text-white px-5 py-2.5 rounded-xl text-xs font-bold hover:bg-[#23395B]"
-              >
-                Browse {selectedDept} Department
-              </Link>
-            </div>
-          )}
+
+                  <div className="mt-5 pt-3.5 border-t border-[#E8E6DF] flex items-center justify-between">
+                    <span className="text-xs font-bold text-[#64748B]">
+                      {subResources.length > 0 ? `${subResources.length} files available` : 'Curated syllabus'}
+                    </span>
+                    <Link
+                      to={`/explore?subject=${encodeURIComponent(sub.name)}`}
+                      className="inline-flex items-center gap-1 text-xs font-bold text-[#14213D] group-hover:text-[#F59E0B]"
+                    >
+                      <span>Open Course</span>
+                      <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
   );
 };
 
-// 4. BROWSE ACADEMIC DEPARTMENTS (All 30 Departments in 4-column responsive grid with search filter & view all toggle)
+// 4. BROWSE ACADEMIC DEPARTMENTS (All 30+ Departments Guaranteed 100% Visible)
 export const DepartmentsSection = () => {
   const { departments, subjects, resources } = useApp();
   const [searchQuery, setSearchQuery] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const sectionRef = useRef(null);
 
   const filteredDepartments = useMemo(() => {
     if (!searchQuery.trim()) return departments;
@@ -523,30 +486,8 @@ export const DepartmentsSection = () => {
 
   const displayedDepartments = showAll || searchQuery.trim() ? filteredDepartments : filteredDepartments.slice(0, 8);
 
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from('.dept-card', {
-        y: 26,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.05,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 82%',
-          once: true
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [displayedDepartments.length]);
-
   return (
-    <section ref={sectionRef} id="departments-section" className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
+    <section id="departments-section" className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header & Department Search Filter */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-12">
@@ -587,7 +528,7 @@ export const DepartmentsSection = () => {
           </div>
         </div>
 
-        {/* 4-Column Responsive Grid */}
+        {/* 4-Column Responsive Grid (Guaranteed 100% visible) */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {displayedDepartments.map((dept) => {
             const { icon: Icon, tint } = getDepartmentVisual(dept.name);
@@ -597,7 +538,7 @@ export const DepartmentsSection = () => {
             return (
               <div
                 key={dept.id}
-                className="dept-card bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
+                className="bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
@@ -656,11 +597,10 @@ export const DepartmentsSection = () => {
   );
 };
 
-// 5. CHOOSE YOUR DEGREE PROGRAM SECTION (Categorized by Faculty)
+// 5. CHOOSE YOUR DEGREE PROGRAM SECTION (Guaranteed 100% visible programs)
 export const DegreeProgramsSection = () => {
   const { degreePrograms } = useApp();
   const [activeFaculty, setActiveFaculty] = useState('All');
-  const sectionRef = useRef(null);
 
   const faculties = [
     'All',
@@ -676,30 +616,8 @@ export const DegreeProgramsSection = () => {
     return degreePrograms.filter((p) => p.faculty === activeFaculty);
   }, [degreePrograms, activeFaculty]);
 
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from('.prog-card', {
-        y: 26,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.06,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 82%',
-          once: true
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, [filteredPrograms.length]);
-
   return (
-    <section ref={sectionRef} className="relative bg-[#F2F1EC]/70 py-16 sm:py-24 border-b border-[#E8E6DF]">
+    <section className="relative bg-[#F2F1EC]/70 py-16 sm:py-24 border-b border-[#E8E6DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
           <div>
@@ -734,12 +652,12 @@ export const DegreeProgramsSection = () => {
           </div>
         </div>
 
-        {/* Programs Grid */}
+        {/* Programs Grid (Guaranteed 100% visible) */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredPrograms.map((prog) => (
             <div
               key={prog.id}
-              className="prog-card bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
+              className="bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
@@ -780,36 +698,13 @@ export const DegreeProgramsSection = () => {
   );
 };
 
-// 6. BROWSE BY SEMESTER (1st to 8th Semester Cards dynamically reflecting selected program)
+// 6. BROWSE BY SEMESTER (Guaranteed 100% visible 8 Semesters)
 export const SemestersSection = () => {
   const { semesters, degreePrograms, subjects, resources } = useApp();
   const [selectedProgramName, setSelectedProgramName] = useState('BS Computer Science');
-  const sectionRef = useRef(null);
-
-  useEffect(() => {
-    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReduced || !sectionRef.current) return;
-
-    const ctx = gsap.context(() => {
-      gsap.from('.sem-card', {
-        y: 28,
-        opacity: 0,
-        duration: 0.65,
-        stagger: 0.07,
-        ease: 'power3.out',
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top 84%',
-          once: true
-        }
-      });
-    }, sectionRef);
-
-    return () => ctx.revert();
-  }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
+    <section className="relative bg-[#F8F7F3] py-16 sm:py-24 border-b border-[#E8E6DF]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-6 mb-10">
           <div>
@@ -852,7 +747,7 @@ export const SemestersSection = () => {
             return (
               <div
                 key={sem.id}
-                className="sem-card bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
+                className="bg-white rounded-3xl p-6 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs hover:shadow-xl transition-all duration-300 hover:-translate-y-1.5 flex flex-col justify-between group"
               >
                 <div>
                   <div className="flex items-center justify-between mb-4">
