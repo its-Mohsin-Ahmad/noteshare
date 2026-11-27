@@ -7,7 +7,6 @@ import {
   Search,
   ArrowRight,
   ArrowUpRight,
-  BookOpen,
   FileText,
   FileCheck,
   ClipboardList,
@@ -56,7 +55,7 @@ export const BookHeroStory = () => {
 
   const scrollToStory = () => {
     if (!stageRef.current) return;
-    const targetY = stageRef.current.offsetTop + 420;
+    const targetY = stageRef.current.offsetTop + 520;
     window.scrollTo({ top: targetY, behavior: 'smooth' });
   };
 
@@ -113,29 +112,27 @@ export const BookHeroStory = () => {
         .from(
           '.hero-desc',
           {
-            y: 22,
+            y: 20,
             opacity: 0,
             duration: 0.7
           },
-          '-=0.55'
+          '-=0.6'
         )
         .from(
           '.hero-cta',
           {
-            y: 18,
+            y: 16,
             opacity: 0,
             duration: 0.6,
             stagger: 0.12
           },
-          '-=0.45'
+          '-=0.5'
         )
         .from(
           bookOuterRef.current,
           {
-            x: 110,
-            y: 20,
-            rotateY: -22,
-            rotateX: 10,
+            y: 70,
+            rotateX: 12,
             scale: 0.88,
             opacity: 0,
             duration: 1.15,
@@ -146,7 +143,7 @@ export const BookHeroStory = () => {
         .from(
           '.hero-float-page',
           {
-            y: 30,
+            y: 26,
             scale: 0.8,
             opacity: 0,
             duration: 0.75,
@@ -163,14 +160,14 @@ export const BookHeroStory = () => {
             duration: 0.75,
             ease: 'power3.out'
           },
-          '-=0.6'
+          '-=0.65'
         );
 
       // Gentle continuous ambient float on inner book wrapper (independent of ScrollTrigger)
       gsap.to(bookInnerRef.current, {
-        y: -12,
-        rotationZ: 1.2,
-        duration: 3.4,
+        y: -10,
+        rotationZ: 0.8,
+        duration: 3.6,
         repeat: -1,
         yoyo: true,
         ease: 'sine.inOut'
@@ -178,7 +175,7 @@ export const BookHeroStory = () => {
 
       // Ambient float on tiny pages
       gsap.to('.hero-float-page', {
-        y: (i) => (i % 2 === 0 ? -10 : 10),
+        y: (i) => (i % 2 === 0 ? -9 : 9),
         rotation: (i) => (i % 2 === 0 ? 4 : -4),
         duration: (i) => 2.8 + i * 0.4,
         repeat: -1,
@@ -189,9 +186,8 @@ export const BookHeroStory = () => {
       // 2. RESPONSIVE SCROLL STORYTELLING WITH MATCHMEDIA
       const mm = gsap.matchMedia();
 
-      // Desktop & Tablet: Full pinned 3D scroll storytelling
+      // Desktop & Tablet: Book starts DEAD CENTER, then glides smoothly to the RIGHT side
       mm.add('(min-width: 768px)', () => {
-        // Set initial hidden states for story beats 01, 02, 03
         gsap.set(['.story-beat-1', '.story-beat-2', '.story-beat-3'], {
           opacity: 0,
           y: 40,
@@ -207,21 +203,23 @@ export const BookHeroStory = () => {
           scrollTrigger: {
             trigger: stageRef.current,
             start: 'top top',
-            end: '+=2600',
+            end: '+=2800',
             pin: true,
             scrub: 1,
             invalidateOnRefresh: true
           }
         });
 
-        // SCENE 1 -> SCENE 2: Hero fades out, Book moves gracefully to the right side in 3D
+        // SCENE 1 -> SCENE 2:
+        // Top Hero Header & Bottom Search Panel fade out;
+        // Centered Book with Hands glides smoothly to the RIGHT side in 3D!
         storyTl
           .to(
-            '.hero-left-content',
+            '.hero-top-row',
             {
               opacity: 0,
               y: -36,
-              duration: 0.8,
+              duration: 0.85,
               ease: 'power2.inOut',
               pointerEvents: 'none'
             },
@@ -232,7 +230,7 @@ export const BookHeroStory = () => {
             {
               opacity: 0,
               y: 36,
-              duration: 0.7,
+              duration: 0.75,
               ease: 'power2.inOut',
               pointerEvents: 'none'
             },
@@ -241,10 +239,10 @@ export const BookHeroStory = () => {
           .to(
             bgTypeRef.current,
             {
-              xPercent: -10,
-              y: -30,
-              opacity: 0.65,
-              duration: 2.0,
+              xPercent: -12,
+              y: -35,
+              opacity: 0.6,
+              duration: 2.2,
               ease: 'none'
             },
             0
@@ -253,7 +251,7 @@ export const BookHeroStory = () => {
             decorRef.current,
             {
               y: -45,
-              duration: 2.0,
+              duration: 2.2,
               ease: 'none'
             },
             0
@@ -261,38 +259,39 @@ export const BookHeroStory = () => {
           .to(
             bookOuterRef.current,
             {
-              xPercent: 18,
-              y: -15,
-              scale: 0.84,
-              rotateY: -12,
-              rotateX: 5,
-              duration: 1.2,
+              xPercent: 48,
+              yPercent: -14,
+              scale: 0.86,
+              rotateY: -14,
+              rotateX: 6,
+              duration: 1.35,
               ease: 'power2.inOut'
             },
-            0.1
+            0.05
           )
           .to(
             glowRef.current,
             {
-              xPercent: 18,
+              xPercent: 48,
+              yPercent: -14,
               scale: 1.15,
-              opacity: 0.85,
-              duration: 1.2
+              opacity: 0.9,
+              duration: 1.35
             },
-            0.1
+            0.05
           )
 
-          // SCENE 3A: Story Beat 01 — Everything Starts with Knowledge
+          // SCENE 3A: Story Beat 01 — Everything Starts with Knowledge (Left side)
           .to(
             '.story-beat-1',
             {
               opacity: 1,
               y: 0,
               pointerEvents: 'auto',
-              duration: 0.8,
+              duration: 0.85,
               ease: 'power3.out'
             },
-            0.9
+            1.0
           )
           .to(
             '.story-beat-1',
@@ -303,20 +302,20 @@ export const BookHeroStory = () => {
               duration: 0.7,
               ease: 'power2.in'
             },
-            2.1
+            2.2
           )
 
           // SCENE 3B: Story Beat 02 — Find the Resources You Need + Floating Document Cards
           .to(
             bookOuterRef.current,
             {
-              rotateY: -6,
-              rotateX: 8,
-              scale: 0.86,
+              rotateY: -7,
+              rotateX: 9,
+              scale: 0.88,
               duration: 1.0,
               ease: 'power1.inOut'
             },
-            2.3
+            2.4
           )
           .to(
             '.story-beat-2',
@@ -324,10 +323,10 @@ export const BookHeroStory = () => {
               opacity: 1,
               y: 0,
               pointerEvents: 'auto',
-              duration: 0.8,
+              duration: 0.85,
               ease: 'power3.out'
             },
-            2.4
+            2.5
           )
           .to(
             '.story-doc-card',
@@ -339,7 +338,7 @@ export const BookHeroStory = () => {
               duration: 0.65,
               ease: 'power3.out'
             },
-            2.6
+            2.7
           )
           .to(
             '.story-beat-2',
@@ -350,7 +349,7 @@ export const BookHeroStory = () => {
               duration: 0.7,
               ease: 'power2.in'
             },
-            3.8
+            3.9
           )
 
           // SCENE 3C: Story Beat 03 — Make Every Study Session Count
@@ -360,43 +359,43 @@ export const BookHeroStory = () => {
               opacity: 1,
               y: 0,
               pointerEvents: 'auto',
-              duration: 0.8,
+              duration: 0.85,
               ease: 'power3.out'
             },
-            4.1
+            4.2
           )
 
           // SCENE 4: The Book Opens & Pages Fan Outward
           .to(
             bookOuterRef.current,
             {
-              xPercent: 10,
-              y: -25,
-              scale: 0.96,
-              rotateY: 4,
-              rotateX: 11,
-              duration: 1.2,
+              xPercent: 42,
+              yPercent: -18,
+              scale: 0.98,
+              rotateY: 5,
+              rotateX: 12,
+              duration: 1.25,
               ease: 'power2.inOut'
-            },
-            4.6
-          )
-          .to(
-            '.hero-float-page-1',
-            {
-              x: -85,
-              y: -65,
-              rotation: -18,
-              scale: 1.15,
-              opacity: 1,
-              duration: 1.1,
-              ease: 'power2.out'
             },
             4.7
           )
           .to(
+            '.hero-float-page-1',
+            {
+              x: -95,
+              y: -70,
+              rotation: -18,
+              scale: 1.16,
+              opacity: 1,
+              duration: 1.1,
+              ease: 'power2.out'
+            },
+            4.8
+          )
+          .to(
             '.hero-float-page-2',
             {
-              x: 75,
+              x: 85,
               y: -80,
               rotation: 20,
               scale: 1.18,
@@ -404,20 +403,20 @@ export const BookHeroStory = () => {
               duration: 1.1,
               ease: 'power2.out'
             },
-            4.75
+            4.85
           )
           .to(
             '.hero-float-page-3',
             {
-              x: -60,
+              x: -65,
               y: 60,
               rotation: -12,
-              scale: 1.1,
+              scale: 1.12,
               opacity: 1,
               duration: 1.1,
               ease: 'power2.out'
             },
-            4.8
+            4.9
           )
           .to(
             glowRef.current,
@@ -426,7 +425,7 @@ export const BookHeroStory = () => {
               opacity: 1,
               duration: 1.0
             },
-            4.7
+            4.8
           );
       });
 
@@ -548,9 +547,9 @@ export const BookHeroStory = () => {
       {/* ===================================================================== */}
       <section
         ref={stageRef}
-        className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-between overflow-hidden pt-8 pb-8 sm:pt-12 sm:pb-10"
+        className="relative min-h-[calc(100vh-4rem)] flex flex-col justify-between overflow-hidden pt-6 pb-6 sm:pt-10 sm:pb-8"
         style={{
-          background: 'linear-gradient(180deg, #F7F1ED 0%, #F7F1ED 58%, #FCE4D2 86%, #F6CAA7 100%)'
+          background: 'linear-gradient(180deg, #F7F1ED 0%, #F7F1ED 55%, #FCE4D2 84%, #F5C39B 100%)'
         }}
       >
         {/* Subtle Grain Texture Overlay */}
@@ -558,248 +557,248 @@ export const BookHeroStory = () => {
 
         {/* Thin Decorative Architectural Lines & Floating Particles */}
         <div ref={decorRef} className="absolute inset-0 pointer-events-none z-0 overflow-hidden">
-          <div className="hidden md:block absolute top-16 left-10 right-10 h-px bg-[#14213D]/[0.06]" />
-          <div className="hidden md:block absolute top-0 bottom-0 left-[8%] w-px bg-[#14213D]/[0.04]" />
-          <div className="hidden md:block absolute top-0 bottom-0 right-[8%] w-px bg-[#14213D]/[0.04]" />
-          <span className="absolute top-[22%] left-[14%] w-2 h-2 rounded-full bg-[#F59E0B]/40" />
-          <span className="absolute top-[34%] right-[12%] w-1.5 h-1.5 rounded-full bg-[#14213D]/25" />
-          <span className="absolute bottom-[28%] left-[22%] w-2.5 h-2.5 rounded-full border border-[#F59E0B]/45" />
+          <div className="hidden md:block absolute top-12 left-10 right-10 h-px bg-[#14213D]/[0.05]" />
+          <div className="hidden md:block absolute top-0 bottom-0 left-[7%] w-px bg-[#14213D]/[0.04]" />
+          <div className="hidden md:block absolute top-0 bottom-0 right-[7%] w-px bg-[#14213D]/[0.04]" />
+          <span className="absolute top-[22%] left-[12%] w-2 h-2 rounded-full bg-[#F59E0B]/40" />
+          <span className="absolute top-[30%] right-[12%] w-1.5 h-1.5 rounded-full bg-[#14213D]/25" />
+          <span className="absolute bottom-[30%] left-[20%] w-2.5 h-2.5 rounded-full border border-[#F59E0B]/45" />
         </div>
 
         {/* Very Large Low-Opacity Background Typography */}
         <div
           ref={bgTypeRef}
           aria-hidden="true"
-          className="hero-bg-type absolute inset-x-0 top-[14%] md:top-[8%] flex justify-center items-center pointer-events-none select-none z-0 overflow-hidden"
+          className="hero-bg-type absolute inset-x-0 top-[24%] md:top-[20%] flex justify-center items-center pointer-events-none select-none z-0 overflow-hidden"
         >
-          <span className="text-[22vw] sm:text-[18vw] lg:text-[15.5rem] font-black tracking-tighter leading-none text-[#14213D]/[0.045] whitespace-nowrap">
+          <span className="text-[22vw] sm:text-[18vw] lg:text-[16rem] font-black tracking-tighter leading-none text-[#14213D]/[0.045] whitespace-nowrap">
             NoteShare
           </span>
         </div>
 
         {/* MAIN STAGE CONTAINER */}
-        <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-10 items-center relative">
-            
-            {/* LEFT COLUMN: Hero Copy (Scene 1) + Overlapping Storytelling Beats (Scene 3 on Desktop) */}
-            <div className="md:col-span-6 lg:col-span-6 relative z-20">
-              
-              {/* HERO INITIAL LEFT CONTENT */}
-              <div className="hero-left-content space-y-5 sm:space-y-6">
-                <div className="hero-label inline-flex items-center gap-2.5 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-[#E5DDD5] shadow-2xs">
-                  <span className="w-2 h-2 rounded-full bg-[#F59E0B]" />
-                  <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#14213D]/80">
-                    Your University Resource Platform
-                  </span>
-                </div>
-
-                <h1 className="text-4xl sm:text-5xl lg:text-[3.55rem] font-extrabold tracking-tight text-[#14213D] leading-[1.08]">
-                  <span className="block overflow-hidden">
-                    <span className="hero-heading-line block">Discover Your Next</span>
-                  </span>
-                  <span className="block overflow-hidden mt-1">
-                    <span className="hero-heading-line block">
-                      Great{' '}
-                      <span className="text-[#F59E0B] relative inline-block">
-                        Study Resource
-                        <svg
-                          className="absolute -bottom-1.5 left-0 w-full h-2.5 text-[#F59E0B]/45"
-                          viewBox="0 0 200 12"
-                          preserveAspectRatio="none"
-                        >
-                          <path d="M2 9 Q 100 1, 198 8" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-                        </svg>
-                      </span>
-                      .
-                    </span>
-                  </span>
-                </h1>
-
-                <p className="hero-desc text-sm sm:text-base lg:text-[17px] text-[#475569] max-w-lg leading-relaxed font-normal">
-                  Explore university notes, past papers, lecture materials, and academic resources — everything you need for your learning journey in one place.
-                </p>
-
-                <div className="flex flex-wrap items-center gap-3.5 pt-1">
-                  <Link
-                    to="/explore"
-                    className="hero-cta inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-[#14213D] hover:bg-[#1E2F54] text-white shadow-lg shadow-[#14213D]/15 transition-all hover:-translate-y-0.5"
-                  >
-                    <span>Explore Resources</span>
-                    <ArrowRight className="w-4 h-4 text-[#F59E0B]" />
-                  </Link>
-
-                  <button
-                    type="button"
-                    onClick={scrollToStory}
-                    className="hero-cta inline-flex items-center gap-2 px-5 py-3.5 rounded-xl font-bold text-xs sm:text-sm text-[#14213D] bg-white/85 hover:bg-white border border-[#E5DDD5] hover:border-[#F59E0B] transition-all shadow-xs cursor-pointer"
-                  >
-                    <Compass className="w-4 h-4 text-[#F59E0B]" />
-                    <span>Discover NoteShare</span>
-                  </button>
-                </div>
+        <div className="relative z-10 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex flex-col justify-between">
+          
+          {/* TOP ROW (BookVerse Composition: Left Heading + CTAs, Right Description) */}
+          <div className="hero-top-row grid grid-cols-1 md:grid-cols-12 gap-6 items-start pt-1 sm:pt-2 z-20">
+            {/* Top Left: Label + Heading + CTAs */}
+            <div className="md:col-span-7 space-y-3.5">
+              <div className="hero-label inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-[#E5DDD5] shadow-2xs">
+                <span className="w-2 h-2 rounded-full bg-[#F59E0B]" />
+                <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.18em] text-[#14213D]/80">
+                  Your University Resource Platform
+                </span>
               </div>
 
-              {/* DESKTOP STORYTELLING OVERLAY BEATS (01, 02, 03) */}
-              <div className="hidden md:block">
-                {/* 01 — Everything Starts with Knowledge */}
-                <div className="story-beat-1 absolute inset-0 flex flex-col justify-center space-y-4">
-                  <div className="inline-flex items-center gap-3">
-                    <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
-                      01
+              <h1 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#14213D] leading-[1.08]">
+                <span className="block overflow-hidden">
+                  <span className="hero-heading-line block">Discover Your Next</span>
+                </span>
+                <span className="block overflow-hidden mt-1">
+                  <span className="hero-heading-line block">
+                    Great{' '}
+                    <span className="text-[#F59E0B] relative inline-block">
+                      Study Resource
+                      <svg
+                        className="absolute -bottom-1.5 left-0 w-full h-2.5 text-[#F59E0B]/45"
+                        viewBox="0 0 200 12"
+                        preserveAspectRatio="none"
+                      >
+                        <path d="M2 9 Q 100 1, 198 8" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" />
+                      </svg>
                     </span>
-                    <span className="h-px w-12 bg-[#14213D]/20" />
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
-                      Curated Foundation
-                    </span>
-                  </div>
-                  <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
-                    Everything Starts with <span className="text-[#F59E0B]">Knowledge.</span>
-                  </h2>
-                  <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
-                    Stop digging through scattered folders and chat groups. Access structured semester notes, verified syllabi, and faculty handouts organized cleanly by department and course.
-                  </p>
+                    .
+                  </span>
+                </span>
+              </h1>
+
+              <div className="flex flex-wrap items-center gap-3 pt-1">
+                <Link
+                  to="/explore"
+                  className="hero-cta inline-flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 rounded-xl font-bold text-xs sm:text-sm bg-[#14213D] hover:bg-[#1E2F54] text-white shadow-lg shadow-[#14213D]/15 transition-all hover:-translate-y-0.5"
+                >
+                  <span>Explore Resources</span>
+                  <ArrowRight className="w-4 h-4 text-[#F59E0B]" />
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={scrollToStory}
+                  className="hero-cta inline-flex items-center gap-2 px-4 py-2.5 sm:px-5 sm:py-3 rounded-xl font-bold text-xs sm:text-sm text-[#14213D] bg-white/85 hover:bg-white border border-[#E5DDD5] hover:border-[#F59E0B] transition-all shadow-xs cursor-pointer"
+                >
+                  <Compass className="w-4 h-4 text-[#F59E0B]" />
+                  <span>Discover NoteShare</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Top Right: Editorial Description */}
+            <div className="md:col-span-5 md:pt-8 lg:pl-8">
+              <p className="hero-desc text-xs sm:text-sm lg:text-[15px] text-[#475569] leading-relaxed font-normal max-w-md md:ml-auto">
+                Explore university notes, past papers, lecture materials, and academic resources — everything you need for your learning journey in one place.
+              </p>
+            </div>
+          </div>
+
+          {/* DESKTOP STORYTELLING OVERLAY BEATS (01, 02, 03 — Left Half while Book Glides Right) */}
+          <div className="hidden md:block absolute inset-y-0 left-4 sm:left-6 lg:left-8 w-[48%] pointer-events-none z-20">
+            {/* 01 — Everything Starts with Knowledge */}
+            <div className="story-beat-1 absolute inset-0 flex flex-col justify-center space-y-4">
+              <div className="inline-flex items-center gap-3">
+                <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
+                  01
+                </span>
+                <span className="h-px w-12 bg-[#14213D]/20" />
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
+                  Curated Foundation
+                </span>
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+                Everything Starts with <span className="text-[#F59E0B]">Knowledge.</span>
+              </h2>
+              <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
+                Stop digging through scattered folders and chat groups. Access structured semester notes, verified syllabi, and faculty handouts organized cleanly by department and course.
+              </p>
+            </div>
+
+            {/* 02 — Find the Resources You Need + Floating Document Cards */}
+            <div className="story-beat-2 absolute inset-0 flex flex-col justify-center space-y-4">
+              <div className="inline-flex items-center gap-3">
+                <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
+                  02
+                </span>
+                <span className="h-px w-12 bg-[#14213D]/20" />
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
+                  Instant Discovery
+                </span>
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+                Find the <span className="text-[#F59E0B]">Resources</span> You Need.
+              </h2>
+              <p className="text-sm text-[#475569] leading-relaxed max-w-md">
+                Preview PDFs in your browser, save exam papers to your personal library, and revise faster before every midterm and final.
+              </p>
+
+              {/* Floating Editorial Document Cards */}
+              <div className="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+                <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
+                  <FileText className="w-5 h-5 text-[#F59E0B] mb-2" />
+                  <div className="text-xs font-extrabold text-[#14213D]">Lecture Notes</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">Verified PDFs</div>
                 </div>
-
-                {/* 02 — Find the Resources You Need + Floating Document Cards */}
-                <div className="story-beat-2 absolute inset-0 flex flex-col justify-center space-y-4">
-                  <div className="inline-flex items-center gap-3">
-                    <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
-                      02
-                    </span>
-                    <span className="h-px w-12 bg-[#14213D]/20" />
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
-                      Instant Discovery
-                    </span>
-                  </div>
-                  <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
-                    Find the <span className="text-[#F59E0B]">Resources</span> You Need.
-                  </h2>
-                  <p className="text-sm text-[#475569] leading-relaxed max-w-md">
-                    Preview PDFs in your browser, save exam papers to your personal library, and revise faster before every midterm and final.
-                  </p>
-
-                  {/* Floating Editorial Document Cards */}
-                  <div className="grid grid-cols-3 gap-3 pt-2 max-w-lg">
-                    <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
-                      <FileText className="w-5 h-5 text-[#F59E0B] mb-2" />
-                      <div className="text-xs font-extrabold text-[#14213D]">Lecture Notes</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">Verified PDFs</div>
-                    </div>
-                    <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
-                      <FileCheck className="w-5 h-5 text-[#14213D] mb-2" />
-                      <div className="text-xs font-extrabold text-[#14213D]">Past Papers</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">Solved Exams</div>
-                    </div>
-                    <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
-                      <Presentation className="w-5 h-5 text-[#EA580C] mb-2" />
-                      <div className="text-xs font-extrabold text-[#14213D]">Slide Decks</div>
-                      <div className="text-[11px] text-slate-500 mt-0.5">Weekly Topics</div>
-                    </div>
-                  </div>
+                <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
+                  <FileCheck className="w-5 h-5 text-[#14213D] mb-2" />
+                  <div className="text-xs font-extrabold text-[#14213D]">Past Papers</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">Solved Exams</div>
                 </div>
-
-                {/* 03 — Make Every Study Session Count */}
-                <div className="story-beat-3 absolute inset-0 flex flex-col justify-center space-y-4">
-                  <div className="inline-flex items-center gap-3">
-                    <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
-                      03
-                    </span>
-                    <span className="h-px w-12 bg-[#14213D]/20" />
-                    <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
-                      Ready to Study
-                    </span>
-                  </div>
-                  <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
-                    Make Every Study <span className="text-[#F59E0B]">Session Count.</span>
-                  </h2>
-                  <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
-                    Join thousands of students sharing high-quality academic notes, lab guides, and examination archives across every semester.
-                  </p>
-                  <div className="pt-2">
-                    <Link
-                      to="/explore"
-                      className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-[#F59E0B] hover:bg-[#D97706] text-white shadow-lg shadow-[#F59E0B]/25 transition-all hover:-translate-y-0.5"
-                    >
-                      <span>Explore Resources</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
+                <div className="story-doc-card bg-white/95 p-3.5 rounded-2xl border border-[#E5DDD5] shadow-md">
+                  <Presentation className="w-5 h-5 text-[#EA580C] mb-2" />
+                  <div className="text-xs font-extrabold text-[#14213D]">Slide Decks</div>
+                  <div className="text-[11px] text-slate-500 mt-0.5">Weekly Topics</div>
                 </div>
               </div>
             </div>
 
-            {/* CENTER / RIGHT COLUMN: 3D Floating Open Book Visual */}
-            <div className="md:col-span-6 lg:col-span-6 relative flex items-center justify-center perspective-1500 py-4 md:py-0">
-              {/* Subtle Warm Orange Glow Behind Book */}
-              <div
-                ref={glowRef}
-                className="hero-glow absolute w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-[#F59E0B]/22 blur-[70px] pointer-events-none"
-              />
+            {/* 03 — Make Every Study Session Count */}
+            <div className="story-beat-3 absolute inset-0 flex flex-col justify-center space-y-4">
+              <div className="inline-flex items-center gap-3">
+                <span className="text-xs font-black tracking-[0.2em] text-[#F59E0B] bg-[#FFF0D6] px-3 py-1 rounded-full border border-[#F59E0B]/30">
+                  03
+                </span>
+                <span className="h-px w-12 bg-[#14213D]/20" />
+                <span className="text-[11px] font-bold uppercase tracking-widest text-[#14213D]/60">
+                  Ready to Study
+                </span>
+              </div>
+              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+                Make Every Study <span className="text-[#F59E0B]">Session Count.</span>
+              </h2>
+              <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
+                Join thousands of students sharing high-quality academic notes, lab guides, and examination archives across every semester.
+              </p>
+              <div className="pt-2">
+                <Link
+                  to="/explore"
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-[#F59E0B] hover:bg-[#D97706] text-white shadow-lg shadow-[#F59E0B]/25 transition-all hover:-translate-y-0.5"
+                >
+                  <span>Explore Resources</span>
+                  <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
 
-              {/* Outer Scroll-Controlled Book Container */}
-              <div
-                ref={bookOuterRef}
-                className="relative preserve-3d w-full max-w-[440px] sm:max-w-[500px] lg:max-w-[540px] flex items-center justify-center"
-              >
-                {/* Mouse-Follow 3D Tilt Wrapper */}
-                <div ref={bookTiltRef} className="relative preserve-3d w-full flex items-center justify-center">
-                  {/* Continuous Gentle Float Wrapper */}
-                  <div ref={bookInnerRef} className="relative preserve-3d w-full flex items-center justify-center">
-                    
-                    {/* Floating Editorial Page 1 (Top Left) */}
-                    <div
-                      aria-hidden="true"
-                      className="hero-float-page hero-float-page-1 hidden sm:flex flex-col gap-1.5 absolute -top-4 left-2 sm:left-4 w-16 h-20 bg-white/95 rounded-lg border border-[#E5DDD5] shadow-md p-2.5 -rotate-12 z-10 pointer-events-none"
-                    >
-                      <div className="w-6 h-1 rounded bg-[#F59E0B]/70" />
-                      <div className="w-full h-1 rounded bg-slate-200" />
-                      <div className="w-4/5 h-1 rounded bg-slate-200" />
-                      <div className="w-full h-1 rounded bg-slate-200" />
-                      <div className="w-2/3 h-1 rounded bg-slate-200" />
-                    </div>
+          {/* CENTER HERO VISUAL: LARGE OPEN BOOK WITH HANDS (Dead Center First, Glides Right on Scroll) */}
+          <div className="relative flex-1 flex items-end justify-center perspective-1500 -mb-6 sm:-mb-8 pt-4 md:pt-2 z-10 pointer-events-none">
+            {/* Subtle Warm Orange Glow Behind Book */}
+            <div
+              ref={glowRef}
+              className="hero-glow absolute bottom-8 w-72 h-72 sm:w-[420px] sm:h-[340px] rounded-full bg-[#F59E0B]/25 blur-[75px] pointer-events-none"
+            />
 
-                    {/* Floating Editorial Page 2 (Top Right) */}
-                    <div
-                      aria-hidden="true"
-                      className="hero-float-page hero-float-page-2 hidden sm:flex flex-col gap-1.5 absolute -top-2 right-2 sm:right-6 w-14 h-18 bg-white/95 rounded-lg border border-[#E5DDD5] shadow-md p-2 rotate-12 z-10 pointer-events-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <span className="w-3 h-3 rounded-full bg-[#FFF0D6] border border-[#F59E0B]/40" />
-                        <span className="w-4 h-1 rounded bg-slate-200" />
-                      </div>
-                      <div className="w-full h-1 rounded bg-slate-200 mt-1" />
-                      <div className="w-5/6 h-1 rounded bg-slate-200" />
-                      <div className="w-3/4 h-1 rounded bg-slate-200" />
-                    </div>
-
-                    {/* Floating Academic Badge 3 (Bottom Left) */}
-                    <div
-                      aria-hidden="true"
-                      className="hero-float-page hero-float-page-3 hidden sm:flex items-center gap-2 absolute bottom-4 left-0 sm:left-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-xl border border-[#E5DDD5] shadow-lg -rotate-6 z-20 pointer-events-none"
-                    >
-                      <GraduationCap className="w-4 h-4 text-[#F59E0B]" />
-                      <span className="text-[10px] font-extrabold text-[#14213D]">Verified Notes</span>
-                    </div>
-
-                    {/* SUPPLIED TRANSPARENT OPEN-BOOK IMAGE (Natural Proportions) */}
-                    <img
-                      src={heroBookImg}
-                      alt="Open study book floating in NoteShare"
-                      onLoad={handleImageLoad}
-                      className="relative z-10 w-full h-auto max-h-[340px] sm:max-h-[400px] lg:max-h-[430px] object-contain select-none pointer-events-none drop-shadow-[0_28px_40px_rgba(20,33,61,0.22)]"
-                    />
+            {/* Outer Scroll-Controlled Book Container (Centered by Flexbox) */}
+            <div
+              ref={bookOuterRef}
+              className="relative preserve-3d w-full max-w-[380px] sm:max-w-[480px] lg:max-w-[540px] flex items-end justify-center"
+            >
+              {/* Mouse-Follow 3D Tilt Wrapper */}
+              <div ref={bookTiltRef} className="relative preserve-3d w-full flex items-end justify-center">
+                {/* Continuous Gentle Float Wrapper */}
+                <div ref={bookInnerRef} className="relative preserve-3d w-full flex items-end justify-center">
+                  
+                  {/* Floating Editorial Page 1 (Top Left) */}
+                  <div
+                    aria-hidden="true"
+                    className="hero-float-page hero-float-page-1 hidden sm:flex flex-col gap-1.5 absolute top-2 left-2 sm:left-4 w-16 h-20 bg-white/95 rounded-lg border border-[#E5DDD5] shadow-md p-2.5 -rotate-12 z-10 pointer-events-none"
+                  >
+                    <div className="w-6 h-1 rounded bg-[#F59E0B]/70" />
+                    <div className="w-full h-1 rounded bg-slate-200" />
+                    <div className="w-4/5 h-1 rounded bg-slate-200" />
+                    <div className="w-full h-1 rounded bg-slate-200" />
+                    <div className="w-2/3 h-1 rounded bg-slate-200" />
                   </div>
+
+                  {/* Floating Editorial Page 2 (Top Right) */}
+                  <div
+                    aria-hidden="true"
+                    className="hero-float-page hero-float-page-2 hidden sm:flex flex-col gap-1.5 absolute top-4 right-2 sm:right-6 w-14 h-18 bg-white/95 rounded-lg border border-[#E5DDD5] shadow-md p-2 rotate-12 z-10 pointer-events-none"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="w-3 h-3 rounded-full bg-[#FFF0D6] border border-[#F59E0B]/40" />
+                      <span className="w-4 h-1 rounded bg-slate-200" />
+                    </div>
+                    <div className="w-full h-1 rounded bg-slate-200 mt-1" />
+                    <div className="w-5/6 h-1 rounded bg-slate-200" />
+                    <div className="w-3/4 h-1 rounded bg-slate-200" />
+                  </div>
+
+                  {/* Floating Academic Badge 3 (Bottom Left) */}
+                  <div
+                    aria-hidden="true"
+                    className="hero-float-page hero-float-page-3 hidden sm:flex items-center gap-2 absolute bottom-12 left-0 sm:-left-4 bg-white/95 backdrop-blur-sm px-3 py-2 rounded-xl border border-[#E5DDD5] shadow-lg -rotate-6 z-20 pointer-events-none"
+                  >
+                    <GraduationCap className="w-4 h-4 text-[#F59E0B]" />
+                    <span className="text-[10px] font-extrabold text-[#14213D]">Verified Notes</span>
+                  </div>
+
+                  {/* SUPPLIED TRANSPARENT OPEN-BOOK WITH HANDS IMAGE */}
+                  <img
+                    src={heroBookImg}
+                    alt="Hands holding open study book floating in NoteShare"
+                    onLoad={handleImageLoad}
+                    className="relative z-10 w-full h-auto max-h-[270px] sm:max-h-[340px] lg:max-h-[380px] object-contain select-none pointer-events-none drop-shadow-[0_24px_38px_rgba(20,33,61,0.22)]"
+                  />
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* BOTTOM SEARCH PANEL (Inspired by BookVerse Reference) */}
-        <div className="hero-search-panel relative z-30 max-w-5xl w-full mx-auto px-4 sm:px-6 mt-6 md:mt-4">
+        {/* BOTTOM SEARCH PANEL (Sits cleanly in front of the base of the centered hands/book) */}
+        <div className="hero-search-panel relative z-30 max-w-5xl w-full mx-auto px-4 sm:px-6">
           <form
             onSubmit={handleSearchSubmit}
-            className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_20px_50px_-15px_rgba(20,33,61,0.12)] border border-[#E5DDD5] p-3 sm:p-4"
+            className="bg-white/95 backdrop-blur-md rounded-2xl sm:rounded-3xl shadow-[0_20px_50px_-15px_rgba(20,33,61,0.14)] border border-[#E5DDD5] p-3 sm:p-4"
           >
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 items-center">
               {/* Resource Name */}
