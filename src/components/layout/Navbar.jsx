@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { Search, Menu, X, LogIn, UserPlus, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
+import { Search, Menu, X, UserPlus, User, LayoutDashboard, LogOut, ChevronDown } from 'lucide-react';
+import gsap from 'gsap';
 import { Logo } from '../common/Logo';
 import { useApp } from '../../context/AppContext';
 
@@ -10,7 +11,25 @@ export const Navbar = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [quickQuery, setQuickQuery] = useState('');
+  const headerRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced || !headerRef.current) return;
+
+    const ctx = gsap.context(() => {
+      gsap.from(headerRef.current, {
+        y: -28,
+        opacity: 0,
+        duration: 0.75,
+        ease: 'power3.out',
+        clearProps: 'transform,opacity'
+      });
+    }, headerRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
@@ -32,9 +51,12 @@ export const Navbar = () => {
 
   return (
     <>
-      <header className="sticky top-0 z-40 w-full bg-[#FFFFFF]/92 backdrop-blur-md border-b border-[#E8E6DF] text-[#14213D] shadow-xs transition-colors">
+      <header
+        ref={headerRef}
+        className="sticky top-0 z-40 w-full bg-[#F7F1ED]/85 backdrop-blur-md border-b border-[#E5DDD5]/80 text-[#14213D] transition-colors"
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-18">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Logo size="normal" variant="dark" />
 

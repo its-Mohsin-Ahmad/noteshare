@@ -21,18 +21,11 @@ import {
 import { useApp } from '../../context/AppContext';
 import { ResourceCard } from '../../components/common/ResourceCard';
 import { SubjectCard } from '../../components/common/SubjectCard';
+import { BookHeroStory } from '../../components/home/BookHeroStory';
 
 export const Home = () => {
   const { resources, subjects, departments, semesters, recordDownload, setPreviewResource } = useApp();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState('All');
   const navigate = useNavigate();
-
-  const handleGlobalSearch = (e) => {
-    e.preventDefault();
-    const catParam = activeCategory !== 'All' ? `&category=${encodeURIComponent(activeCategory)}` : '';
-    navigate(`/explore?search=${encodeURIComponent(searchQuery)}${catParam}`);
-  };
 
   // Recent notes (first 4 published notes)
   const recentNotes = resources
@@ -53,172 +46,10 @@ export const Home = () => {
   // Popular subjects
   const popularSubjects = subjects.slice(0, 6);
 
-  const searchCategories = ['All', 'Notes', 'Past Papers', 'Subjects', 'Departments'];
-
   return (
     <div className="space-y-16 pb-16">
-      {/* HERO SECTION */}
-      <section className="relative bg-[#F8F7F3] text-[#14213D] overflow-hidden pt-12 pb-24 md:pb-28 border-b border-[#E8E6DF]">
-        {/* Subtle warm lighting overlay */}
-        <div className="absolute top-10 right-1/3 w-80 h-80 bg-[#F59E0B]/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 right-10 w-96 h-96 bg-[#14213D]/5 rounded-full blur-2xl pointer-events-none" />
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7 space-y-6">
-              {/* Badge */}
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#FFF0D6] border border-[#F59E0B]/30 text-xs font-semibold text-[#D97706] shadow-xs">
-                <BookOpen className="w-3.5 h-3.5 text-[#F59E0B]" />
-                <span>A Notes and Past Papers Sharing Portal</span>
-              </div>
-
-              {/* Main Heading */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-[#14213D] leading-[1.15]">
-                Everything You Need to{' '}
-                <span className="text-[#F59E0B] relative inline-block">
-                  Succeed
-                  <svg
-                    className="absolute -bottom-2 left-0 w-full h-3 text-[#F59E0B]/50"
-                    viewBox="0 0 100 20"
-                    preserveAspectRatio="none"
-                  >
-                    <path d="M0 15 Q 50 0, 100 15" stroke="currentColor" strokeWidth="4" fill="none" />
-                  </svg>
-                </span>{' '}
-                in Your Studies.
-              </h1>
-
-              {/* Description */}
-              <p className="text-base sm:text-lg text-[#64748B] font-normal max-w-xl leading-relaxed">
-                Explore organized university notes, past examination papers, lecture materials, and academic resources in one place.
-              </p>
-
-              {/* CTA Buttons */}
-              <div className="flex flex-wrap items-center gap-4 pt-2">
-                <Link
-                  to="/explore"
-                  className="flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm bg-[#F59E0B] hover:bg-[#D97706] text-white shadow-md shadow-[#F59E0B]/25 transition-all hover:scale-[1.02]"
-                >
-                  <Search className="w-4 h-4" />
-                  <span>Explore Resources</span>
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-
-                <Link
-                  to="/register"
-                  className="flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-sm text-[#14213D] bg-white hover:bg-[#F2F1EC] border border-[#E8E6DF] hover:border-[#F59E0B] transition-all shadow-xs"
-                >
-                  <GraduationCap className="w-4 h-4 text-[#F59E0B]" />
-                  <span>Create Free Account</span>
-                </Link>
-              </div>
-
-              {/* Trust Badges */}
-              <div className="pt-4 flex flex-wrap items-center gap-6 text-xs text-slate-600 font-medium">
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#F59E0B]" />
-                  Verified Past Papers
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#F59E0B]" />
-                  Faculty Handouts
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <CheckCircle className="w-4 h-4 text-[#F59E0B]" />
-                  100% Free for Students
-                </span>
-              </div>
-            </div>
-
-            {/* Right Visual Image */}
-            <div className="lg:col-span-5 relative flex justify-center lg:justify-end">
-              <div className="relative">
-                {/* Handwritten decorative text */}
-                <div className="absolute -top-6 -right-2 md:right-4 z-20 flex flex-col items-end">
-                  <span className="text-[#F59E0B] font-script text-2xl md:text-3xl font-bold rotate-[4deg] drop-shadow-xs">
-                    Study Smart
-                  </span>
-                  <span className="text-[#14213D] font-script text-xl md:text-2xl font-bold rotate-[4deg] -mt-1 drop-shadow-xs">
-                    Achieve More
-                  </span>
-                </div>
-
-                {/* Graduation cap icon doodle */}
-                <div className="absolute top-8 left-0 z-20 bg-white p-3 rounded-2xl border border-[#E8E6DF] shadow-lg backdrop-blur-sm -rotate-6">
-                  <GraduationCap className="w-8 h-8 text-[#F59E0B]" />
-                </div>
-
-                {/* Main Hero Student Image */}
-                <div className="relative w-72 sm:w-80 md:w-96 h-[380px] sm:h-[430px] rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-slate-100">
-                  <img
-                    src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=800&auto=format&fit=crop"
-                    alt="University Student"
-                    className="w-full h-full object-cover object-top"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#14213D]/40 via-transparent to-transparent" />
-                </div>
-
-                {/* Floating Resource Stats pill */}
-                <div className="absolute -bottom-5 -left-4 sm:left-4 z-20 bg-white text-[#14213D] p-3.5 rounded-2xl shadow-xl border border-[#E8E6DF] flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-[#FFF0D6] border border-[#F59E0B]/30 flex items-center justify-center text-[#D97706]">
-                    <Download className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-bold text-slate-500">Total Downloads</div>
-                    <div className="text-base font-extrabold text-[#14213D]">50,000+ Files</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* FLOATING GLOBAL SEARCH COMPONENT (Matching Screenshot 3) */}
-      <section className="-mt-16 sm:-mt-20 relative z-30 max-w-5xl mx-auto px-4 sm:px-6">
-        <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 p-4 sm:p-6">
-          <form onSubmit={handleGlobalSearch} className="flex flex-col sm:flex-row gap-3">
-            <div className="relative flex-1">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search for notes, past papers, subjects or study materials..."
-                className="w-full pl-12 pr-4 py-3.5 text-sm sm:text-base rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 placeholder-slate-400 focus:bg-white focus:border-[#F4A62A] focus:outline-none transition-all"
-              />
-            </div>
-
-            <button
-              type="submit"
-              className="px-8 py-3.5 rounded-2xl font-bold text-sm bg-[#F4A62A] hover:bg-[#E0941F] text-[#0D1930] transition-colors shadow-md flex items-center justify-center gap-2"
-            >
-              <span>Search</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </form>
-
-          {/* Quick Categories Pills underneath Search */}
-          <div className="flex flex-wrap items-center gap-2 mt-4 pt-4 border-t border-slate-100">
-            <span className="text-xs font-bold text-slate-400 mr-1">Categories:</span>
-            {searchCategories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all ${
-                  activeCategory === cat
-                    ? 'bg-[#F4A62A] text-[#0D1930] shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* PREMIUM BOOK-THEMED HERO + GSAP 3D SCROLL STORYTELLING + 6 RESOURCE CARDS */}
+      <BookHeroStory />
 
       {/* BROWSE BY SEMESTER & POPULAR SUBJECTS (Screenshot 3 Layout) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
