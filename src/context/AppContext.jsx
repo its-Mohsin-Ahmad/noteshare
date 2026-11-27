@@ -40,7 +40,13 @@ const safeLoad = (key, fallback) => {
   try {
     const saved = localStorage.getItem(key);
     if (!saved || saved === 'undefined' || saved === 'null') return fallback;
-    return JSON.parse(saved);
+    const parsed = JSON.parse(saved);
+    if (Array.isArray(parsed) && Array.isArray(fallback) && parsed.length < fallback.length) {
+      const existingKeys = new Set(parsed.map((item) => (item.id || item.code || item.name || '').toLowerCase()));
+      const missing = fallback.filter((item) => !existingKeys.has((item.id || item.code || item.name || '').toLowerCase()));
+      return [...parsed, ...missing];
+    }
+    return parsed;
   } catch (err) {
     console.warn(`Failed to parse localStorage key "${key}":`, err);
     return fallback;
@@ -141,13 +147,22 @@ export const AppProvider = ({ children }) => {
         setResources(resRes.data.map(mapResourceFromDB));
       }
       if (subRes.data && subRes.data.length > 0) {
-        setSubjects(subRes.data.map(mapSubjectFromDB));
+        const dbSubs = subRes.data.map(mapSubjectFromDB);
+        const existingCodes = new Set(dbSubs.map((s) => (s.code || s.id || '').toLowerCase()));
+        const missing = INITIAL_SUBJECTS.filter((s) => !existingCodes.has((s.code || s.id || '').toLowerCase()));
+        setSubjects([...dbSubs, ...missing]);
       }
       if (deptRes.data && deptRes.data.length > 0) {
-        setDepartments(deptRes.data.map(mapDepartmentFromDB));
+        const dbDepts = deptRes.data.map(mapDepartmentFromDB);
+        const existingNames = new Set(dbDepts.map((d) => (d.name || d.id || '').toLowerCase()));
+        const missing = INITIAL_DEPARTMENTS.filter((d) => !existingNames.has((d.name || d.id || '').toLowerCase()));
+        setDepartments([...dbDepts, ...missing]);
       }
       if (progRes.data && progRes.data.length > 0) {
-        setDegreePrograms(progRes.data.map(mapDegreeProgramFromDB));
+        const dbProgs = progRes.data.map(mapDegreeProgramFromDB);
+        const existingNames = new Set(dbProgs.map((p) => (p.name || p.id || '').toLowerCase()));
+        const missing = INITIAL_DEGREE_PROGRAMS.filter((p) => !existingNames.has((p.name || p.id || '').toLowerCase()));
+        setDegreePrograms([...dbProgs, ...missing]);
       }
       if (semRes.data && semRes.data.length > 0) {
         setSemesters(semRes.data.map(mapSemesterFromDB));

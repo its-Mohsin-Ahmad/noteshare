@@ -1,19 +1,77 @@
 export const INITIAL_DEPARTMENTS = [
-  { id: 'cs', name: 'Computer Science', code: 'CS', description: 'Department of Computer Science and Intelligent Systems', head: 'Dr. Tariq Mahmood', totalStudents: 450, totalPrograms: 3 },
-  { id: 'se', name: 'Software Engineering', code: 'SE', description: 'Department of Software Engineering and Quality Assurance', head: 'Dr. Ayesha Malik', totalStudents: 380, totalPrograms: 2 },
-  { id: 'it', name: 'Information Technology', code: 'IT', description: 'Department of Information Technology & Cloud Infrastructure', head: 'Engr. Kamran Ali', totalStudents: 310, totalPrograms: 2 },
-  { id: 'math', name: 'Mathematics', code: 'MATH', description: 'Department of Applied & Computational Mathematics', head: 'Prof. Dr. Nasir Abbas', totalStudents: 220, totalPrograms: 1 },
-  { id: 'phy', name: 'Physics', code: 'PHY', description: 'Department of Applied Physics and Electronics', head: 'Dr. Farhan Qureshi', totalStudents: 180, totalPrograms: 1 },
-  { id: 'ee', name: 'Electrical Engineering', code: 'EE', description: 'Department of Electrical & Computer Engineering', head: 'Dr. Mansoor Ahmed', totalStudents: 260, totalPrograms: 2 },
-  { id: 'ba', name: 'Business Administration', code: 'BA', description: 'Faculty of Business and Information Management', head: 'Dr. Sadaf Jamil', totalStudents: 320, totalPrograms: 2 }
+  { id: 'cs', name: 'Computer Science', code: 'CS', description: 'Computing foundations, algorithms, AI, cloud systems, and intelligent software.', head: 'Dr. Tariq Mahmood', totalStudents: 450, totalPrograms: 5 },
+  { id: 'se', name: 'Software Engineering', code: 'SE', description: 'Full-lifecycle software architecture, DevOps, design patterns, and quality engineering.', head: 'Dr. Ayesha Malik', totalStudents: 380, totalPrograms: 2 },
+  { id: 'ee', name: 'Electrical Engineering', code: 'EE', description: 'Power systems, electronics, microprocessors, telecommunications, and robotics.', head: 'Dr. Mansoor Ahmed', totalStudents: 260, totalPrograms: 2 },
+  { id: 'ce', name: 'Civil Engineering', code: 'CE', description: 'Structural design, mechanics of materials, geotechnical analysis, and infrastructure.', head: 'Dr. Bilal Qureshi', totalStudents: 240, totalPrograms: 2 },
+  { id: 'me', name: 'Mechanical Engineering', code: 'ME', description: 'Thermodynamics, fluid mechanics, CAD/CAM manufacturing, and industrial automation.', head: 'Dr. Zubair Shah', totalStudents: 275, totalPrograms: 2 },
+  { id: 'cse', name: 'Computer Systems Engineering', code: 'CSE', description: 'Embedded systems, FPGA computing, VLSI design, and hardware-software integration.', head: 'Dr. Noman Bashir', totalStudents: 210, totalPrograms: 2 },
+  { id: 'che', name: 'Chemical Engineering', code: 'CHE', description: 'Chemical reaction engineering, transport phenomena, thermodynamics, and plant design.', head: 'Dr. Asim Raza', totalStudents: 190, totalPrograms: 2 },
+  { id: 'arch', name: 'Architecture', code: 'ARCH', description: 'Architectural graphics, urban planning, environmental design, and spatial drafting.', head: 'Ar. Farhana Naz', totalStudents: 175, totalPrograms: 1 },
+  { id: 'ba', name: 'Business Administration', code: 'BA', description: 'Strategic management, organizational behavior, marketing strategy, and leadership.', head: 'Dr. Sadaf Jamil', totalStudents: 340, totalPrograms: 3 },
+  { id: 'af', name: 'Accounting & Finance', code: 'AF', description: 'Financial accounting, corporate taxation, portfolio audit, and capital markets.', head: 'Dr. Imran Khan', totalStudents: 290, totalPrograms: 2 },
+  { id: 'econ', name: 'Economics', code: 'ECON', description: 'Microeconomics, macroeconomic policy, econometrics, and quantitative analysis.', head: 'Dr. Lubna Farooq', totalStudents: 230, totalPrograms: 2 },
+  { id: 'math', name: 'Mathematics', code: 'MATH', description: 'Calculus, linear algebra, numerical analysis, differential equations, and statistics.', head: 'Prof. Dr. Nasir Abbas', totalStudents: 220, totalPrograms: 2 },
+  { id: 'phy', name: 'Physics', code: 'PHY', description: 'Quantum physics, classical mechanics, electromagnetism, and optical measurements.', head: 'Dr. Farhan Qureshi', totalStudents: 180, totalPrograms: 2 },
+  { id: 'chem', name: 'Chemistry', code: 'CHEM', description: 'Organic mechanisms, inorganic synthesis, physical chemistry, and analytical methods.', head: 'Dr. Shazia Akhtar', totalStudents: 195, totalPrograms: 2 },
+  { id: 'bio', name: 'Biological Sciences', code: 'BIO', description: 'Cell biology, genetics, evolutionary ecology, physiology, and laboratory instrumentation.', head: 'Dr. Rehana Siddiqui', totalStudents: 215, totalPrograms: 2 },
+  { id: 'biotech', name: 'Biotechnology', code: 'BIOTECH', description: 'Molecular biology, recombinant DNA technology, bioinformatics, and bioprocessing.', head: 'Dr. Waqas Ahmed', totalStudents: 205, totalPrograms: 2 },
+  { id: 'micro', name: 'Microbiology', code: 'MICRO', description: 'Bacteriology, virology, immunology, clinical diagnostics, and microbial genetics.', head: 'Dr. Muniba Saeed', totalStudents: 185, totalPrograms: 2 },
+  { id: 'env', name: 'Environmental Sciences', code: 'ENV', description: 'Ecosystem analysis, climate impact, environmental monitoring, and sustainable resources.', head: 'Dr. Khalid Mehmood', totalStudents: 160, totalPrograms: 2 },
+  { id: 'eng', name: 'English', code: 'ENG', description: 'Linguistics, English literature, academic writing, phonetics, and critical analysis.', head: 'Prof. Saima Khan', totalStudents: 280, totalPrograms: 2 },
+  { id: 'edu', name: 'Education', code: 'EDU', description: 'Pedagogy, curriculum development, instructional psychology, and educational evaluation.', head: 'Dr. Bushra Rashid', totalStudents: 225, totalPrograms: 2 },
+  { id: 'psych', name: 'Psychology', code: 'PSYCH', description: 'Cognitive psychology, clinical counseling, psychometrics, and research methods.', head: 'Dr. Sadia Malik', totalStudents: 260, totalPrograms: 2 },
+  { id: 'soc', name: 'Sociology', code: 'SOC', description: 'Sociological theories, social demography, community studies, and anthropological methods.', head: 'Dr. Tariq Javed', totalStudents: 190, totalPrograms: 2 },
+  { id: 'pol', name: 'Political Science', code: 'POL', description: 'Comparative politics, political theory, constitutional law, and public governance.', head: 'Dr. Mazhar Iqbal', totalStudents: 210, totalPrograms: 2 },
+  { id: 'ir', name: 'International Relations', code: 'IR', description: 'Global geopolitics, international diplomacy, foreign policy, and strategic security.', head: 'Dr. Adnan Sarwar', totalStudents: 240, totalPrograms: 2 },
+  { id: 'isl', name: 'Islamic Studies', code: 'ISL', description: 'Quranic hermeneutics, Hadith jurisprudence, Islamic history, and ethics in modern life.', head: 'Prof. Dr. Hafiz ur Rehman', totalStudents: 270, totalPrograms: 2 },
+  { id: 'law', name: 'Law', code: 'LAW', description: 'Constitutional law, criminal jurisprudence, corporate law, advocacy, and legal drafting.', head: 'Adv. M. Ali Chaudhry', totalStudents: 310, totalPrograms: 2 },
+  { id: 'med', name: 'Medical Sciences', code: 'MED', description: 'Human anatomy, pathology, physiology, pharmacology, and clinical diagnosis.', head: 'Prof. Dr. Kamran Yousaf', totalStudents: 410, totalPrograms: 3 },
+  { id: 'pharm', name: 'Pharmacy', code: 'PHARM', description: 'Pharmaceutics, medicinal chemistry, pharmacokinetics, and clinical pharmacotherapy.', head: 'Dr. Nadia Anwer', totalStudents: 330, totalPrograms: 2 },
+  { id: 'ph', name: 'Public Health', code: 'PH', description: 'Epidemiology, health policy, community health nutrition, and occupational hygiene.', head: 'Dr. Salman Hashmi', totalStudents: 175, totalPrograms: 2 },
+  { id: 'agri', name: 'Agriculture', code: 'AGRI', description: 'Agronomy, horticulture, plant pathology, agricultural economics, and soil sciences.', head: 'Dr. Zafar Iqbal', totalStudents: 220, totalPrograms: 2 },
+  { id: 'it', name: 'Information Technology', code: 'IT', description: 'Cloud infrastructure, enterprise networks, cybersecurity, and system administration.', head: 'Engr. Kamran Ali', totalStudents: 310, totalPrograms: 2 }
 ];
 
 export const INITIAL_DEGREE_PROGRAMS = [
-  { id: 'bs-cs', name: 'BS Computer Science', code: 'BSCS', department: 'Computer Science', duration: '4 Years (8 Semesters)' },
-  { id: 'bs-se', name: 'BS Software Engineering', code: 'BSSE', department: 'Software Engineering', duration: '4 Years (8 Semesters)' },
-  { id: 'bs-it', name: 'BS Information Technology', code: 'BSIT', department: 'Information Technology', duration: '4 Years (8 Semesters)' },
-  { id: 'bs-ee', name: 'BS Electrical Engineering', code: 'BSEE', department: 'Electrical Engineering', duration: '4 Years (8 Semesters)' },
-  { id: 'bba', name: 'Bachelor of Business Administration', code: 'BBA', department: 'Business Administration', duration: '4 Years (8 Semesters)' }
+  // Faculty: Engineering & Computing
+  { id: 'bs-cs', name: 'BS Computer Science', code: 'BSCS', department: 'Computer Science', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-se', name: 'BS Software Engineering', code: 'BSSE', department: 'Software Engineering', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-ai', name: 'BS Artificial Intelligence', code: 'BSAI', department: 'Computer Science', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-ds', name: 'BS Data Science', code: 'BSDS', department: 'Computer Science', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-cys', name: 'BS Cyber Security', code: 'BSCYS', department: 'Computer Science', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-it', name: 'BS Information Technology', code: 'BSIT', department: 'Information Technology', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bsc-ee', name: 'BSc Electrical Engineering', code: 'BSEE', department: 'Electrical Engineering', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bsc-ce', name: 'BSc Civil Engineering', code: 'BSCE', department: 'Civil Engineering', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bsc-me', name: 'BSc Mechanical Engineering', code: 'BSME', department: 'Mechanical Engineering', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bsc-cse', name: 'BSc Computer Systems Engineering', code: 'BSCSE', department: 'Computer Systems Engineering', faculty: 'Engineering & Computing', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+
+  // Faculty: Business & Management
+  { id: 'bba', name: 'Bachelor of Business Administration', code: 'BBA', department: 'Business Administration', faculty: 'Business & Management', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-af', name: 'BS Accounting & Finance', code: 'BSAF', department: 'Accounting & Finance', faculty: 'Business & Management', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-econ', name: 'BS Economics', code: 'BSECON', department: 'Economics', faculty: 'Business & Management', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-ba', name: 'BS Business Analytics', code: 'BSBA', department: 'Business Administration', faculty: 'Business & Management', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+
+  // Faculty: Natural & Applied Sciences
+  { id: 'bs-math', name: 'BS Mathematics', code: 'BSMATH', department: 'Mathematics', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-phy', name: 'BS Physics', code: 'BSPHY', department: 'Physics', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-chem', name: 'BS Chemistry', code: 'BSCHEM', department: 'Chemistry', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-biotech', name: 'BS Biotechnology', code: 'BSBT', department: 'Biotechnology', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-micro', name: 'BS Microbiology', code: 'BSMB', department: 'Microbiology', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-env', name: 'BS Environmental Sciences', code: 'BSES', department: 'Environmental Sciences', faculty: 'Natural & Applied Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+
+  // Faculty: Social Sciences & Humanities
+  { id: 'bs-eng', name: 'BS English', code: 'BSENG', department: 'English', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-psych', name: 'BS Psychology', code: 'BSPSY', department: 'Psychology', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-soc', name: 'BS Sociology', code: 'BSSOC', department: 'Sociology', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-pol', name: 'BS Political Science', code: 'BSPOL', department: 'Political Science', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-ir', name: 'BS International Relations', code: 'BSIR', department: 'International Relations', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-isl', name: 'BS Islamic Studies', code: 'BSIS', department: 'Islamic Studies', faculty: 'Social Sciences & Humanities', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+
+  // Faculty: Health Sciences
+  { id: 'pharm-d', name: 'Doctor of Pharmacy (Pharm-D)', code: 'PHARMD', department: 'Pharmacy', faculty: 'Health Sciences', duration: '5 Years (10 Semesters)', level: 'Professional Degree', totalSemesters: 10 },
+  { id: 'bs-ph', name: 'BS Public Health', code: 'BSPH', department: 'Public Health', faculty: 'Health Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-mlt', name: 'BS Medical Laboratory Technology', code: 'BSMLT', department: 'Medical Sciences', faculty: 'Health Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 },
+  { id: 'bs-nursing', name: 'BS Nursing', code: 'BSN', department: 'Medical Sciences', faculty: 'Health Sciences', duration: '4 Years (8 Semesters)', level: 'Undergraduate', totalSemesters: 8 }
 ];
 
 export const INITIAL_SEMESTERS = [
@@ -183,6 +241,162 @@ export const INITIAL_SUBJECTS = [
     papersCount: 5,
     icon: 'Share2',
     description: 'Propositional logic, set theory, combinatorics, recurrence relations, graph theory, and proof techniques.'
+  },
+  {
+    id: 'ee-101',
+    name: 'Circuit Analysis & Theory',
+    code: 'EE-101',
+    department: 'Electrical Engineering',
+    degreeProgram: 'BSc Electrical Engineering',
+    semester: 'Semester 2',
+    type: 'Core',
+    notesCount: 14,
+    papersCount: 8,
+    icon: 'Cpu',
+    description: 'Kirchhoff’s laws, nodal and mesh analysis, Thévenin and Norton equivalents, and AC steady-state circuit analysis.'
+  },
+  {
+    id: 'ce-101',
+    name: 'Structural Mechanics',
+    code: 'CE-101',
+    department: 'Civil Engineering',
+    degreeProgram: 'BSc Civil Engineering',
+    semester: 'Semester 3',
+    type: 'Core',
+    notesCount: 12,
+    papersCount: 6,
+    icon: 'Building2',
+    description: 'Analysis of trusses, shear force and bending moment diagrams, deflection of beams, and buckling of columns.'
+  },
+  {
+    id: 'me-101',
+    name: 'Thermodynamics & Heat Transfer',
+    code: 'ME-101',
+    department: 'Mechanical Engineering',
+    degreeProgram: 'BSc Mechanical Engineering',
+    semester: 'Semester 3',
+    type: 'Core',
+    notesCount: 15,
+    papersCount: 7,
+    icon: 'Cpu',
+    description: 'First and second laws of thermodynamics, Carnot cycle, gas power cycles, and conduction-convection heat transfer.'
+  },
+  {
+    id: 'bba-101',
+    name: 'Principles of Management',
+    code: 'MGT-101',
+    department: 'Business Administration',
+    degreeProgram: 'Bachelor of Business Administration',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 16,
+    papersCount: 9,
+    icon: 'Briefcase',
+    description: 'Management functions, organizational structure, leadership dynamics, strategic planning, and corporate culture.'
+  },
+  {
+    id: 'af-101',
+    name: 'Financial Accounting & Reporting',
+    code: 'ACC-101',
+    department: 'Accounting & Finance',
+    degreeProgram: 'BS Accounting & Finance',
+    semester: 'Semester 2',
+    type: 'Core',
+    notesCount: 13,
+    papersCount: 8,
+    icon: 'Calculator',
+    description: 'Accounting cycle, double-entry bookkeeping, balance sheet formulation, income statements, and cash flows.'
+  },
+  {
+    id: 'econ-101',
+    name: 'Microeconomics & Market Systems',
+    code: 'ECO-101',
+    department: 'Economics',
+    degreeProgram: 'BS Economics',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 11,
+    papersCount: 6,
+    icon: 'TrendingUp',
+    description: 'Consumer choice theory, demand and supply equilibrium, elasticity, production functions, and market structures.'
+  },
+  {
+    id: 'law-101',
+    name: 'Constitutional Law & Jurisprudence',
+    code: 'LAW-101',
+    department: 'Law',
+    degreeProgram: 'Law',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 14,
+    papersCount: 7,
+    icon: 'BookOpen',
+    description: 'Constitutional doctrine, separation of powers, fundamental human rights, judicial review, and jurisprudence.'
+  },
+  {
+    id: 'pharm-101',
+    name: 'General & Physical Pharmacy',
+    code: 'PHM-101',
+    department: 'Pharmacy',
+    degreeProgram: 'Doctor of Pharmacy (Pharm-D)',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 18,
+    papersCount: 10,
+    icon: 'Atom',
+    description: 'Dosage forms, solution thermodynamics, solubilization techniques, colloidal dispersions, and drug stability.'
+  },
+  {
+    id: 'med-101',
+    name: 'General Human Anatomy & Histology',
+    code: 'ANAT-101',
+    department: 'Medical Sciences',
+    degreeProgram: 'BS Medical Laboratory Technology',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 22,
+    papersCount: 11,
+    icon: 'Activity',
+    description: 'Osteology, arthrology, myology, microscopic structure of fundamental human tissues, and neuroanatomy basics.'
+  },
+  {
+    id: 'eng-101',
+    name: 'Academic Reading & Writing',
+    code: 'ENG-101',
+    department: 'English',
+    degreeProgram: 'BS English',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 17,
+    papersCount: 9,
+    icon: 'BookOpen',
+    description: 'Essay composition, academic vocabulary, critical reading of prose, argumentation, and APA/MLA referencing.'
+  },
+  {
+    id: 'psych-101',
+    name: 'Introduction to Psychology',
+    code: 'PSY-101',
+    department: 'Psychology',
+    degreeProgram: 'BS Psychology',
+    semester: 'Semester 1',
+    type: 'Core',
+    notesCount: 12,
+    papersCount: 6,
+    icon: 'Users',
+    description: 'Biological bases of behavior, sensation and perception, conditioning, memory systems, and personality development.'
+  },
+  {
+    id: 'biotech-101',
+    name: 'Molecular Biology & Genetics',
+    code: 'BIO-101',
+    department: 'Biotechnology',
+    degreeProgram: 'BS Biotechnology',
+    semester: 'Semester 2',
+    type: 'Core',
+    notesCount: 15,
+    papersCount: 8,
+    icon: 'Atom',
+    description: 'DNA replication, transcription, translation, Mendelian genetics, gene regulation in prokaryotes, and PCR fundamentals.'
   }
 ];
 

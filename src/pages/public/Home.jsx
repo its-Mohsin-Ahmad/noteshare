@@ -2,7 +2,10 @@ import React from 'react';
 import { BookHeroStory } from '../../components/home/BookHeroStory';
 import {
   StatsSection,
+  ResourceCategoriesSection,
+  AcademicHierarchyExplorer,
   DepartmentsSection,
+  DegreeProgramsSection,
   SemestersSection
 } from '../../components/home/StatsAndDiscoverySections';
 import {
@@ -20,38 +23,48 @@ import {
 export const Home = () => {
   return (
     <div className="bg-[#F8F7F3] overflow-x-hidden">
-      {/* 1. UNTOUCHED BOOK-THEMED HERO + GSAP 3D SCROLL STORYTELLING + 6 RESOURCE CATEGORIES */}
+      {/* 1. UNTOUCHED BOOK-THEMED HERO + GSAP 3D SCROLL STORYTELLING */}
       <BookHeroStory />
 
-      {/* 2. PLATFORM STATISTICS (GSAP COUNT-UP USING LIVE PROJECT DATA) */}
+      {/* 2. PLATFORM STATISTICS (REGISTERED STUDENTS, RESOURCES, DOWNLOADS, DEPARTMENTS) */}
       <StatsSection />
 
-      {/* 3. BROWSE BY DEPARTMENT (CAROUSEL ON DESKTOP, GRID ON MOBILE) */}
+      {/* 3. BROWSE ACADEMIC RESOURCE CATEGORIES (6 VISUALLY ATTRACTIVE CARDS) */}
+      <ResourceCategoriesSection />
+
+      {/* 4. INTERACTIVE CONNECTED ACADEMIC HIERARCHY (DEPARTMENT -> PROGRAM -> SEMESTER -> SUBJECT) */}
+      <AcademicHierarchyExplorer />
+
+      {/* 5. EXPLORE RESOURCES BY DEPARTMENT (ALL 30 DEPARTMENTS IN 4-COL RESPONSIVE GRID) */}
       <DepartmentsSection />
 
-      {/* 4. BROWSE BY SEMESTER (1ST TO 8TH SEMESTER WITH ACTIVE NAVY HIGHLIGHT) */}
+      {/* 6. CHOOSE YOUR DEGREE PROGRAM (CATEGORIZED BY FACULTIES) */}
+      <DegreeProgramsSection />
+
+      {/* 7. FIND RESOURCES BY SEMESTER (1ST TO 8TH SEMESTER WITH ACTIVE PROGRAM SWITCHER) */}
       <SemestersSection />
 
-      {/* 5. RECENTLY ADDED RESOURCES (LIVE PUBLISHED RESOURCES + FORMAT PREVIEWS + FILTERS) */}
+      {/* 8. RECENTLY ADDED ACADEMIC RESOURCES (LIVE REPOSITORY FEED + FORMAT BADGES + PREVIEWS) */}
       <RecentResourcesSection />
 
-      {/* 6. POPULAR RESOURCES AMONG STUDENTS (EDITORIAL FEATURED CARDS) */}
+      {/* 9. POPULAR RESOURCES AMONG STUDENTS (SORTED BY DOWNLOADS) */}
       <FeaturedResourcesSection />
 
-      {/* 7. WHY CHOOSE NOTESHARE? (EDITORIAL SPLIT COMPOSITION + 4 NUMBERED FEATURES) */}
+      {/* 10. WHY CHOOSE NOTESHARE? (EDITORIAL 2-COLUMN WITH 6 BENEFIT BLOCKS) */}
       <WhyNoteShareSection />
 
-      {/* 8. HOW NOTESHARE WORKS (3 CONNECTED STEPS WITH GSAP STAGGER) */}
+      {/* 11. HOW NOTESHARE WORKS (3 CONNECTED STEPS WITH PROGRESS LINE) */}
       <HowItWorksSection />
 
-      {/* 9. DESIGNED AROUND STUDENT NEEDS (AUTHENTIC PLATFORM PILLARS) */}
+      {/* 12. DESIGNED AROUND STUDENT NEEDS (PLATFORM PILLARS) */}
       <StudentNeedsSection />
 
-      {/* 10. FREQUENTLY ASKED QUESTIONS (INTERACTIVE ACCORDION) */}
+      {/* 13. FREQUENTLY ASKED QUESTIONS (7 ACCORDION QUESTIONS) */}
       <FaqSection />
 
-      {/* 11. FINAL CALL-TO-ACTION SECTION */}
+      {/* 14. FINAL CALL-TO-ACTION SECTION (NAVY PANEL, ORANGE GLOW) */}
       <FinalCtaSection />
     </div>
   );
 };
+export default Home;

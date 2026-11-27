@@ -15,34 +15,48 @@ import {
   Eye,
   ShieldCheck,
   BookOpen,
-  GraduationCap
+  GraduationCap,
+  Share2,
+  CheckCircle2,
+  FolderOpen
 } from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
+// 1. WHY CHOOSE NOTESHARE? (2-Column Editorial Layout with 6 Benefit Blocks)
 export const WhyNoteShareSection = () => {
   const sectionRef = useRef(null);
 
   const features = [
     {
       num: '01',
-      title: 'Organized Academic Resources',
-      desc: 'Find notes, past papers, and study materials arranged cleanly by department, subject, and semester.'
+      title: 'Organized Academic Hierarchy',
+      desc: 'All course files map strictly to academic departments, degree programs, semesters, and course codes.'
     },
     {
       num: '02',
-      title: 'Easy Resource Discovery',
-      desc: 'Search and filter academic materials across semesters and categories without unnecessary complexity.'
+      title: 'Instant In-Browser Previews',
+      desc: 'Inspect full PDF documents, past exams, and slides directly in your browser before committing to a download.'
     },
     {
       num: '03',
-      title: 'Student-Friendly Experience',
-      desc: 'A clean editorial platform designed to make finding and saving study resources effortless.'
+      title: 'Past Examination Archives',
+      desc: 'Access verified midterm and final-term examination papers across all semesters to prepare with confidence.'
     },
     {
       num: '04',
-      title: 'Accessible Learning Materials',
-      desc: 'Access published notes, preview PDFs in-browser, and bookmark key materials from your student account.'
+      title: 'Student-Driven Sharing',
+      desc: 'Upload and contribute lecture summaries and revision guides through your student dashboard with admin moderation.'
+    },
+    {
+      num: '05',
+      title: 'Smart Search & Filters',
+      desc: 'Filter thousands of academic records by department, semester, subject code, or resource format in real time.'
+    },
+    {
+      num: '06',
+      title: '100% Free & Open Access',
+      desc: 'No paywalls, hidden fees, or gated content — education built openly for the entire university student body.'
     }
   ];
 
@@ -64,10 +78,10 @@ export const WhyNoteShareSection = () => {
       });
 
       gsap.from('.why-feature-item', {
-        y: 26,
+        y: 24,
         opacity: 0,
-        duration: 0.7,
-        stagger: 0.12,
+        duration: 0.65,
+        stagger: 0.08,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
@@ -85,8 +99,8 @@ export const WhyNoteShareSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left: University Library Photo + Floating Document Previews */}
-          <div className="lg:col-span-6 why-photo-wrap relative">
-            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-slate-200 aspect-[4/3]">
+          <div className="lg:col-span-5 why-photo-wrap relative">
+            <div className="relative rounded-3xl overflow-hidden border-4 border-white shadow-2xl bg-slate-200 aspect-[4/5]">
               <img
                 src="https://images.unsplash.com/photo-1521587760476-6c12a4b040da?q=80&w=1000&auto=format&fit=crop"
                 alt="University Academic Library"
@@ -121,30 +135,33 @@ export const WhyNoteShareSection = () => {
             </div>
           </div>
 
-          {/* Right: Editorial Heading + 4 Feature Blocks */}
-          <div className="lg:col-span-6 space-y-8">
+          {/* Right: Editorial Heading + 6 Feature Blocks */}
+          <div className="lg:col-span-7 space-y-8">
             <div>
               <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#D97706] mb-2">
                 <Sparkles className="w-3.5 h-3.5 text-[#F59E0B]" />
                 Why Choose NoteShare
               </span>
               <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#14213D] leading-[1.15]">
-                Everything in One Place. <span className="text-[#F59E0B]">Learning Made Easier.</span>
+                Everything You Need. <span className="text-[#F59E0B]">One Academic Platform.</span>
               </h2>
+              <p className="text-sm text-[#64748B] mt-2">
+                A purpose-built academic hub engineered for university coursework, lecture revisions, and exam prep.
+              </p>
             </div>
 
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {features.map((item) => (
                 <div
                   key={item.num}
                   className="why-feature-item bg-white rounded-2xl p-5 border border-[#E8E6DF] hover:border-[#F59E0B]/70 shadow-2xs transition-all flex items-start gap-4"
                 >
-                  <span className="font-display text-xl font-bold text-[#F59E0B] bg-[#FFF0D6] border border-[#F59E0B]/30 w-11 h-11 rounded-xl flex items-center justify-center shrink-0">
+                  <span className="font-display text-lg font-bold text-[#F59E0B] bg-[#FFF0D6] border border-[#F59E0B]/30 w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
                     {item.num}
                   </span>
                   <div>
-                    <h3 className="text-base font-extrabold text-[#14213D]">{item.title}</h3>
-                    <p className="text-xs sm:text-sm text-[#64748B] mt-1 leading-relaxed">{item.desc}</p>
+                    <h3 className="text-sm sm:text-base font-bold text-[#14213D]">{item.title}</h3>
+                    <p className="text-xs text-[#64748B] mt-1 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -156,26 +173,27 @@ export const WhyNoteShareSection = () => {
   );
 };
 
+// 2. HOW NOTESHARE WORKS (3 Connected Steps)
 export const HowItWorksSection = () => {
   const sectionRef = useRef(null);
 
   const steps = [
     {
       num: '01',
-      title: 'Create Your Account',
-      desc: 'Register for a student account with your department, degree program, and semester.',
+      title: 'Select Your Department & Program',
+      desc: 'Choose your academic department and degree program to automatically filter matching course materials.',
       icon: UserPlus
     },
     {
       num: '02',
-      title: 'Explore Resources',
-      desc: 'Browse subjects, semesters, lecture notes, and verified past papers effortlessly.',
+      title: 'Discover & Preview Documents',
+      desc: 'Browse lecture notes, past exams, or assignments and preview full PDF pages directly in your browser.',
       icon: Compass
     },
     {
       num: '03',
-      title: 'Access Your Materials',
-      desc: 'Open resource details, preview PDFs in-browser, and download available academic files.',
+      title: 'Download, Study & Excel',
+      desc: 'Save verified academic files locally, bookmark key references to your portal, and prepare for exams.',
       icon: Download
     }
   ];
@@ -207,7 +225,7 @@ export const HowItWorksSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-2xl mx-auto mb-14">
           <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#D97706] mb-2">
-            Simple Workflow
+            Simple Academic Workflow
           </span>
           <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#14213D]">
             Start Learning in <span className="text-[#F59E0B]">Three Simple Steps</span>
@@ -235,7 +253,7 @@ export const HowItWorksSection = () => {
                     </div>
                     <span className="font-display text-4xl font-bold text-[#14213D]/15">{step.num}</span>
                   </div>
-                  <h3 className="text-lg font-extrabold text-[#14213D] mb-2">
+                  <h3 className="text-lg font-bold text-[#14213D] mb-2">
                     Step {step.num} – {step.title}
                   </h3>
                   <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">{step.desc}</p>
@@ -249,26 +267,27 @@ export const HowItWorksSection = () => {
   );
 };
 
+// 3. DESIGNED AROUND STUDENT NEEDS (Platform Pillars)
 export const StudentNeedsSection = () => {
   const sectionRef = useRef(null);
 
   const pillars = [
     {
       tag: 'Academic Structure',
-      title: 'Built Around University Curricula',
-      desc: 'Every note, slide deck, and past paper maps cleanly to a department, subject code, and semester from 1st to 8th.',
+      title: 'Curricula-Aligned Hierarchy',
+      desc: 'Every note, slide deck, and past paper maps cleanly to an academic department, subject code, and semester from 1st to 8th.',
       icon: Layers
     },
     {
       tag: 'Instant Inspection',
       title: 'In-Browser Document Previews',
-      desc: 'Review real PDFs and study images right inside the browser modal before downloading to your device.',
+      desc: 'Review real PDFs and study slides directly inside the browser modal before downloading to your mobile or laptop.',
       icon: Eye
     },
     {
       tag: 'Student Collaboration',
-      title: 'Moderated Student Contributions',
-      desc: 'Students can upload helpful notes through their portal for administrative verification and campus-wide sharing.',
+      title: 'Verified Student Contributions',
+      desc: 'Students can upload helpful notes and past papers through their portal for administrative review and campus-wide sharing.',
       icon: ShieldCheck
     }
   ];
@@ -326,7 +345,7 @@ export const StudentNeedsSection = () => {
                     {pillar.tag}
                   </span>
                 </div>
-                <h3 className="text-lg font-extrabold text-[#14213D] mb-2">{pillar.title}</h3>
+                <h3 className="text-lg font-bold text-[#14213D] mb-2">{pillar.title}</h3>
                 <p className="text-xs sm:text-sm text-[#64748B] leading-relaxed">{pillar.desc}</p>
               </div>
             );
@@ -337,34 +356,39 @@ export const StudentNeedsSection = () => {
   );
 };
 
+// 4. FREQUENTLY ASKED QUESTIONS (The 7 Specific Questions from Prompt)
 export const FaqSection = () => {
   const [openIndex, setOpenIndex] = useState(0);
   const sectionRef = useRef(null);
 
   const faqs = [
     {
-      q: 'What is NoteShare?',
-      a: 'NoteShare is a university academic resource management platform where students can browse, preview, bookmark, and download verified lecture notes, past examination papers, assignments, and slide decks.'
+      q: 'How does NoteShare organize university study resources?',
+      a: 'NoteShare arranges academic resources in a structured hierarchy: Academic Department → Degree Program → Semester (1st through 8th) → Subject Code → Specific Resource Category (Notes, Past Papers, Assignments, Lecture Slides, Books, Lab Manuals). This allows students to locate verified documents without searching through clutter.'
     },
     {
-      q: 'How can I create a student account?',
-      a: 'Click "Create Account" in the top navigation bar, complete your personal and academic details (department, degree program, and semester), optionally upload a profile photo, and register instantly.'
+      q: 'Can I preview notes and past papers before downloading?',
+      a: 'Yes! Every resource card features a quick "Preview" button. Clicking it opens an in-browser PDF reader modal where you can inspect pages, examine formulas, and verify content before downloading the file to your computer or mobile device.'
     },
     {
-      q: 'How can I find notes for my semester?',
-      a: 'Use the Search Panel in the hero section, click any card in "Find Resources by Semester", or visit the Explore Resources page and filter by Semester 1 through Semester 8.'
+      q: 'How do administrators add or manage degree programs and departments?',
+      a: 'Administrators have full management privileges in the NoteShare Admin Dashboard. Under the "Departments & Programs" tab, administrators can add new university departments, configure degree programs (level, duration, faculty), create subjects, and assign course codes with automatic real-time sync.'
     },
     {
-      q: 'How do I download past papers?',
-      a: 'Open the Past Papers page or click any past paper card to inspect its details and preview it in-browser, then click the Download button to save the available file.'
+      q: 'Are all resources on NoteShare free to download?',
+      a: 'Yes, NoteShare is 100% free and open for university students and educators. You can browse, preview, and download study notes, lecture slide decks, and past examination papers without any subscription fees or hidden paywalls.'
     },
     {
-      q: 'Can I search by department and subject?',
-      a: 'Yes. Both the hero search bar and the Explore Resources page let you filter directly by Department, Subject, Semester, and Resource Category.'
+      q: 'How can students contribute their own lecture notes or past papers?',
+      a: 'Registered students can sign in to their Student Portal and click "Upload Resource". Select your department, degree program, semester, and course code, then upload your PDF, DOCX, or PPTX file. Uploads are reviewed by administrators before being published university-wide.'
     },
     {
-      q: 'How can I contact the administration?',
-      a: 'You can reach out anytime through the Contact page linked in the footer, or sign in to your Student Portal to submit resource requests and view official announcements.'
+      q: 'What document formats are supported on NoteShare?',
+      a: 'NoteShare primarily supports PDF documents (the standard for academic notes and past exam papers), as well as Microsoft PowerPoint slide decks (.pptx) and Microsoft Word documents (.docx).'
+    },
+    {
+      q: 'How can I find resources specific to my semester and course?',
+      a: 'You can use the interactive "Explore by Department & Program" hierarchy on the homepage, select your current semester in "Find Resources by Semester", or navigate to the Explore Resources page and filter directly by Department, Program, Semester (1 to 8), and Subject.'
     }
   ];
 
@@ -395,11 +419,14 @@ export const FaqSection = () => {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#D97706] mb-2">
-            Support & Clarity
+            Support & Platform Guide
           </span>
           <h2 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-[#14213D]">
             Frequently Asked <span className="text-[#F59E0B]">Questions</span>
           </h2>
+          <p className="text-sm text-[#64748B] mt-2">
+            Everything you need to know about navigating, previewing, and downloading resources on NoteShare.
+          </p>
         </div>
 
         <div className="space-y-3">
@@ -417,7 +444,7 @@ export const FaqSection = () => {
                   onClick={() => setOpenIndex(isOpen ? -1 : idx)}
                   className="w-full px-6 py-4.5 flex items-center justify-between gap-4 text-left cursor-pointer"
                 >
-                  <span className="text-sm sm:text-base font-extrabold text-[#14213D]">{item.q}</span>
+                  <span className="text-sm sm:text-base font-bold text-[#14213D]">{item.q}</span>
                   <span
                     className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 transition-all ${
                       isOpen ? 'bg-[#F59E0B] text-white rotate-180' : 'bg-[#F8F7F3] text-[#14213D]'
@@ -440,6 +467,7 @@ export const FaqSection = () => {
   );
 };
 
+// 5. FINAL CALL TO ACTION SECTION (Navy Panel, Subtle Orange Glow, Minimal Particles)
 export const FinalCtaSection = () => {
   const sectionRef = useRef(null);
 
@@ -448,14 +476,14 @@ export const FinalCtaSection = () => {
     if (prefersReduced || !sectionRef.current) return;
 
     const ctx = gsap.context(() => {
-      gsap.from('.final-cta-card', {
-        y: 36,
+      gsap.from('.cta-box', {
+        scale: 0.96,
         opacity: 0,
-        duration: 0.85,
+        duration: 0.8,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top 84%',
+          start: 'top 82%',
           once: true
         }
       });
@@ -465,46 +493,46 @@ export const FinalCtaSection = () => {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative bg-[#F8F7F3] py-16 sm:py-20">
+    <section ref={sectionRef} className="relative bg-[#F8F7F3] py-16 sm:py-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          className="final-cta-card relative rounded-[32px] p-8 sm:p-12 lg:p-14 text-white border border-[#23395B] shadow-2xl overflow-hidden flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8"
-          style={{
-            background: 'linear-gradient(135deg, #0D1930 0%, #14213D 55%, #23395B 100%)'
-          }}
-        >
-          {/* Subtle Orange Glow & Floating Academic Accents */}
-          <div className="absolute -top-24 -right-20 w-80 h-80 rounded-full bg-[#F59E0B]/20 blur-[90px] pointer-events-none" />
-          <div className="absolute -bottom-24 left-1/3 w-72 h-72 rounded-full bg-[#F59E0B]/10 blur-[80px] pointer-events-none" />
-          <BookOpen className="hidden lg:block absolute right-10 bottom-6 w-36 h-36 text-white/[0.04] pointer-events-none" />
+        <div className="cta-box relative overflow-hidden rounded-3xl bg-[#14213D] text-white p-8 sm:p-12 lg:p-16 border border-[#23395B] shadow-2xl">
+          {/* Subtle Orange Glow Radial */}
+          <div
+            aria-hidden="true"
+            className="absolute -top-32 -right-32 w-96 h-96 rounded-full bg-[#F59E0B]/20 blur-3xl pointer-events-none"
+          />
+          <div
+            aria-hidden="true"
+            className="absolute -bottom-32 -left-32 w-96 h-96 rounded-full bg-[#F59E0B]/10 blur-3xl pointer-events-none"
+          />
 
-          <div className="relative z-10 space-y-4 max-w-2xl">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-[#F59E0B] text-xs font-bold">
-              <GraduationCap className="w-4 h-4" />
-              <span>University Academic Network</span>
-            </div>
-            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-[1.12]">
-              Your Next Study Session <span className="text-[#F59E0B]">Starts Here.</span>
+          <div className="relative z-10 max-w-2xl">
+            <span className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#F59E0B] mb-3">
+              <Sparkles className="w-3.5 h-3.5" />
+              University Resource Hub
+            </span>
+            <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-white leading-tight">
+              Ready to Discover Your Next <span className="text-[#F59E0B]">Study Resource?</span>
             </h2>
-            <p className="text-sm sm:text-base text-slate-300 leading-relaxed max-w-xl">
-              Explore academic resources and make your university learning journey more organized.
+            <p className="text-sm sm:text-base text-slate-300 mt-4 leading-relaxed">
+              Explore thousands of verified lecture notes, past examination papers, and study guides tailored to your university degree.
             </p>
-          </div>
 
-          <div className="relative z-10 flex flex-wrap items-center gap-3.5 shrink-0">
-            <Link
-              to="/explore"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-[#F59E0B] hover:bg-[#D97706] text-[#14213D] shadow-lg shadow-[#F59E0B]/25 transition-all hover:-translate-y-0.5"
-            >
-              <span>Explore Resources</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-2 px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm bg-white/10 hover:bg-white/15 text-white border border-white/20 transition-all"
-            >
-              <span>Create Account</span>
-            </Link>
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <Link
+                to="/explore"
+                className="inline-flex items-center gap-2 bg-[#F59E0B] text-[#14213D] font-extrabold text-sm px-6 py-3.5 rounded-2xl hover:bg-[#D97706] transition-all shadow-md hover:shadow-xl hover:-translate-y-0.5"
+              >
+                <span>Explore Resources</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+              <Link
+                to="/signup"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/15 text-white font-bold text-sm px-6 py-3.5 rounded-2xl border border-white/20 transition-all hover:-translate-y-0.5"
+              >
+                <span>Create Free Account</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
