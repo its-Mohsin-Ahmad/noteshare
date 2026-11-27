@@ -259,9 +259,9 @@ export const BookHeroStory = () => {
           .to(
             bookOuterRef.current,
             {
-              xPercent: 48,
-              yPercent: -14,
-              scale: 0.86,
+              xPercent: 38,
+              yPercent: -12,
+              scale: 0.72,
               rotateY: -14,
               rotateX: 6,
               duration: 1.35,
@@ -272,8 +272,8 @@ export const BookHeroStory = () => {
           .to(
             glowRef.current,
             {
-              xPercent: 48,
-              yPercent: -14,
+              xPercent: 38,
+              yPercent: -12,
               scale: 1.15,
               opacity: 0.9,
               duration: 1.35
@@ -311,7 +311,7 @@ export const BookHeroStory = () => {
             {
               rotateY: -7,
               rotateX: 9,
-              scale: 0.88,
+              scale: 0.75,
               duration: 1.0,
               ease: 'power1.inOut'
             },
@@ -369,9 +369,9 @@ export const BookHeroStory = () => {
           .to(
             bookOuterRef.current,
             {
-              xPercent: 42,
-              yPercent: -18,
-              scale: 0.98,
+              xPercent: 34,
+              yPercent: -16,
+              scale: 0.82,
               rotateY: 5,
               rotateX: 12,
               duration: 1.25,
@@ -569,9 +569,9 @@ export const BookHeroStory = () => {
         <div
           ref={bgTypeRef}
           aria-hidden="true"
-          className="hero-bg-type absolute inset-x-0 top-[24%] md:top-[20%] flex justify-center items-center pointer-events-none select-none z-0 overflow-hidden"
+          className="hero-bg-type absolute inset-x-0 top-[22%] md:top-[18%] flex justify-center items-center pointer-events-none select-none z-0 overflow-hidden"
         >
-          <span className="text-[22vw] sm:text-[18vw] lg:text-[16rem] font-black tracking-tighter leading-none text-[#14213D]/[0.045] whitespace-nowrap">
+          <span className="font-display text-[22vw] sm:text-[18vw] lg:text-[16.5rem] font-bold tracking-[-0.04em] leading-none text-[#14213D]/[0.05] whitespace-nowrap">
             NoteShare
           </span>
         </div>
@@ -590,24 +590,14 @@ export const BookHeroStory = () => {
                 </span>
               </div>
 
-              <h1 className="text-3xl sm:text-5xl lg:text-[3.35rem] font-extrabold tracking-tight text-[#14213D] leading-[1.08]">
+              <h1 className="font-display text-3xl sm:text-5xl lg:text-[3.55rem] font-bold tracking-[-0.03em] text-[#14213D] leading-[1.06]">
                 <span className="block overflow-hidden">
                   <span className="hero-heading-line block">Discover Your Next</span>
                 </span>
                 <span className="block overflow-hidden mt-1">
                   <span className="hero-heading-line block">
                     Great{' '}
-                    <span className="text-[#F59E0B] relative inline-block">
-                      Study Resource
-                      <svg
-                        className="absolute -bottom-1.5 left-0 w-full h-2.5 text-[#F59E0B]/45"
-                        viewBox="0 0 200 12"
-                        preserveAspectRatio="none"
-                      >
-                        <path d="M2 9 Q 100 1, 198 8" stroke="currentColor" strokeWidth="3.5" fill="none" strokeLinecap="round" />
-                      </svg>
-                    </span>
-                    .
+                    <span className="text-[#F59E0B]">Study Resource</span>.
                   </span>
                 </span>
               </h1>
@@ -653,7 +643,7 @@ export const BookHeroStory = () => {
                   Curated Foundation
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold tracking-[-0.025em] text-[#14213D] leading-tight">
                 Everything Starts with <span className="text-[#F59E0B]">Knowledge.</span>
               </h2>
               <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
@@ -672,7 +662,7 @@ export const BookHeroStory = () => {
                   Instant Discovery
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold tracking-[-0.025em] text-[#14213D] leading-tight">
                 Find the <span className="text-[#F59E0B]">Resources</span> You Need.
               </h2>
               <p className="text-sm text-[#475569] leading-relaxed max-w-md">
@@ -710,7 +700,7 @@ export const BookHeroStory = () => {
                   Ready to Study
                 </span>
               </div>
-              <h2 className="text-3xl lg:text-4xl font-extrabold text-[#14213D] leading-tight">
+              <h2 className="font-display text-3xl lg:text-4xl font-bold tracking-[-0.025em] text-[#14213D] leading-tight">
                 Make Every Study <span className="text-[#F59E0B]">Session Count.</span>
               </h2>
               <p className="text-sm lg:text-base text-[#475569] leading-relaxed max-w-md">
@@ -729,17 +719,17 @@ export const BookHeroStory = () => {
           </div>
 
           {/* CENTER HERO VISUAL: LARGE OPEN BOOK WITH HANDS (Dead Center First, Glides Right on Scroll) */}
-          <div className="relative flex-1 flex items-end justify-center perspective-1500 -mb-6 sm:-mb-8 pt-4 md:pt-2 z-10 pointer-events-none">
+          <div className="relative flex-1 flex items-end justify-center perspective-1500 -mb-8 sm:-mb-12 pt-2 z-10 pointer-events-none">
             {/* Subtle Warm Orange Glow Behind Book */}
             <div
               ref={glowRef}
-              className="hero-glow absolute bottom-8 w-72 h-72 sm:w-[420px] sm:h-[340px] rounded-full bg-[#F59E0B]/25 blur-[75px] pointer-events-none"
+              className="hero-glow absolute bottom-8 w-80 h-80 sm:w-[480px] sm:h-[380px] rounded-full bg-[#F59E0B]/25 blur-[80px] pointer-events-none"
             />
 
             {/* Outer Scroll-Controlled Book Container (Centered by Flexbox) */}
             <div
               ref={bookOuterRef}
-              className="relative preserve-3d w-full max-w-[380px] sm:max-w-[480px] lg:max-w-[540px] flex items-end justify-center"
+              className="relative preserve-3d w-full max-w-[440px] sm:max-w-[600px] lg:max-w-[700px] xl:max-w-[760px] flex items-end justify-center"
             >
               {/* Mouse-Follow 3D Tilt Wrapper */}
               <div ref={bookTiltRef} className="relative preserve-3d w-full flex items-end justify-center">
@@ -786,7 +776,7 @@ export const BookHeroStory = () => {
                     src={heroBookImg}
                     alt="Hands holding open study book floating in NoteShare"
                     onLoad={handleImageLoad}
-                    className="relative z-10 w-full h-auto max-h-[270px] sm:max-h-[340px] lg:max-h-[380px] object-contain select-none pointer-events-none drop-shadow-[0_24px_38px_rgba(20,33,61,0.22)]"
+                    className="relative z-10 w-full h-auto max-h-[300px] sm:max-h-[390px] lg:max-h-[450px] object-contain select-none pointer-events-none drop-shadow-[0_28px_42px_rgba(20,33,61,0.22)]"
                   />
                 </div>
               </div>

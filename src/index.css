@@ -107,6 +107,11 @@
   animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+/* Editorial display font matching geometric grotesque reference */
+.font-display {
+  font-family: 'Space Grotesk', 'Plus Jakarta Sans', system-ui, sans-serif;
+}
+
 /* Editorial 3D Perspective & Grain Texture */
 .perspective-1500 {
   perspective: 1500px;
